@@ -1,7 +1,12 @@
-import "./App.css";
+import "./App.scss";
+import { AsideHeaderShowcase } from "./components/MainLayout/MainLayout";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <AsideHeaderShowcase />
+    </>
+  );
 }
 
 export default App;

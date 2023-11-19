@@ -10,11 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gravity-ui/components": "^2.0.0",
+    "@gravity-ui/icons": "^2.2.0",
+    "@gravity-ui/navigation": "^1.4.2",
+    "prop-types": "^15.5.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "scss": "^0.2.4"
   },
   "devDependencies": {
-    "@gravity-ui/uikit": "^5.20.0",
+    "@bem-react/classname": "1.6.0",
+    "@gravity-ui/babel-preset": "^1.0.1",
+    "@gravity-ui/uikit": "^5.1.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
@@ -24,6 +31,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "sass": "^1.69.5",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
   }

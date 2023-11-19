@@ -1,0 +1,11 @@
+@import "@gravity-ui/uikit/styles/mixins.scss";
+
+@mixin aside-header-button() {
+  &_current::before {
+    background-color: var(--g-color-base-selection);
+  }
+
+  .g-root &_current.yc-button_view_flat:hover::before {
+    background-color: var(--g-color-base-selection-hover);
+  }
+}

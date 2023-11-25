@@ -7,7 +7,7 @@ function renderTag(tag: string) {
   return <div className="composite-bar-showcase__tag">{tag.toUpperCase()}</div>;
 }
 
-const ASIDE_HEADER_EXPANDED_WIDTH = 236;
+const ASIDE_HEADER_EXPANDED_WIDTH: number = 236;
 
 export const EMPTY_CONTEXT_VALUE: AsideHeaderContextType = {
   size: ASIDE_HEADER_EXPANDED_WIDTH,
@@ -90,7 +90,7 @@ export const menuItemsShowcase: MenuItem[] = [
   },
 ];
 
-export const text = `
+export const text: string = `
 Did you attend? He sang by grove ripe -
 The bard of love, the singer of his mourning.
 When fields were silent by the early morning,

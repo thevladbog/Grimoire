@@ -8,7 +8,7 @@ import { cn } from "../../utils/cn";
 import { menuItemsShowcase, text as placeholderText } from "./moc";
 import { MenuItem } from "@gravity-ui/navigation";
 
-const ASIDE_HEADER_ICON_SIZE = 18;
+const ASIDE_HEADER_ICON_SIZE: number = 18;
 
 import "./MainLayout.scss";
 
@@ -36,11 +36,11 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
   initialCompact = false,
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const [popupVisible, setPopupVisible] = React.useState(false);
+  const [popupVisible, setPopupVisible] = React.useState<boolean>(false);
   const [subheaderPopupVisible, setSubheaderPopupVisible] =
-    React.useState(false);
+    React.useState<boolean>(false);
   const [visiblePanel, setVisiblePanel] = React.useState<Panel>();
-  const [compact, setCompact] = React.useState(initialCompact);
+  const [compact, setCompact] = React.useState<boolean>(initialCompact);
   const [headerDecoration, setHeaderDecoration] = React.useState<string>(
     BOOLEAN_OPTIONS.Yes
   );
@@ -69,7 +69,7 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
       <AsideHeader
         ref={ref}
         logo={{
-          text: "Service",
+          text: "Grimoire",
           href: "#",
           onClick: () => alert("click on logo"),
         }}

@@ -1,0 +1,8 @@
+export enum USER_ROLES {
+    'ADMIN',
+    'SERVICE_DESK_ELEVATED',
+    'SERVICE_DESK',
+    'STAFF_ADMIN',
+    'RECRUITER',
+    "RECRUITER_MANAGER",
+}

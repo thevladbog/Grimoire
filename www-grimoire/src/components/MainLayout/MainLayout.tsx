@@ -1,15 +1,16 @@
 import React, { FC, useState, useRef } from 'react'
-
 import { Button, Radio, RadioButton, Modal, Icon } from '@gravity-ui/uikit'
-import { Bug, Gear } from '@gravity-ui/icons'
-
-import { AsideHeader, FooterItem } from '@gravity-ui/navigation'
+import {
+  AsideHeader,
+  AsideHeaderTopAlertProps,
+  FooterItem,
+} from '@gravity-ui/navigation'
 import { cn } from 'src/utils/cn.ts'
 import { menuItemsShowcase, text as placeholderText } from './menu-items.tsx'
 import { MenuItem } from '@gravity-ui/navigation'
-
 import { ClassNameFormatter } from '@bem-react/classname'
 
+import { Bug, Gear } from '@gravity-ui/icons'
 import LogoIcon from 'src/assets/img/Grimoire_icon.svg'
 
 import './MainLayout.scss'
@@ -62,6 +63,14 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
         ),
     },
   ])
+  const topAlert: AsideHeaderTopAlertProps = {
+    view: 'filled',
+    message: 'The site is under development',
+    centered: true,
+    dense: true,
+    theme: 'danger',
+  }
+
   return (
     <div className={b()}>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -83,6 +92,7 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
         menuItems={menuItems}
         subheaderItems={[]}
         compact={compact}
+        topAlert={topAlert}
         multipleTooltip={multipleTooltip}
         renderFooter={({ compact, asideRef }) => (
           <React.Fragment>

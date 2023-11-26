@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@gravity-ui/components": "^2.0.0",
-    "@gravity-ui/icons": "^2.2.0",
-    "@gravity-ui/navigation": "^1.4.2",
+    "@gravity-ui/components": "^2.8.0",
+    "@gravity-ui/icons": "^2.8.1",
+    "@gravity-ui/navigation": "^1.6.2",
     "@types/react-router-dom": "^5.3.3",
     "prop-types": "^15.5.7",
     "react": "^18.2.0",

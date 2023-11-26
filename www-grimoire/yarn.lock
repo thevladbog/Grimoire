@@ -1233,7 +1233,7 @@
     babel-plugin-dynamic-import-node "^2.3.3"
     babel-plugin-transform-react-remove-prop-types "^0.4.24"
 
-"@gravity-ui/components@^2.0.0":
+"@gravity-ui/components@^2.8.0":
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/@gravity-ui/components/-/components-2.8.0.tgz#22e7a505a4d6805dc95b27f2e122bf1d2fa389b7"
   integrity sha512-0405+c/KFpSvUcOr3ZIhTuNC3XJzkUnFBdjfurQ261rbLwO0/BvGuxf65SNn8OV2JgdeSgjL6odAhoKopJyATA==
@@ -1249,15 +1249,15 @@
   resolved "https://registry.yarnpkg.com/@gravity-ui/i18n/-/i18n-1.1.0.tgz#35d8f26eb605ef0d94255e44273a804867fa11be"
   integrity sha512-Ck+LNE1S2GGaMKMijIYWogiM/tYk0wHPlqLrhZmzp6P5keIu8YnPDeIlwAzq4eYVSrtTudLmshFB9QmYAeLryQ==
 
-"@gravity-ui/icons@^2.2.0", "@gravity-ui/icons@^2.4.0", "@gravity-ui/icons@^2.5.0":
+"@gravity-ui/icons@^2.4.0", "@gravity-ui/icons@^2.5.0", "@gravity-ui/icons@^2.8.1":
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/@gravity-ui/icons/-/icons-2.8.1.tgz#1b9646021cfe6c8db8f121563da0b55bbd9ff210"
   integrity sha512-cldaFAN3W2OAzEZBiurD7RsqyqGhS7xoVS9TC4DrOG9bXy8dWUvNEeeOnKgpIvZgAGFlTmg01BK6jMH0IFFSPw==
 
-"@gravity-ui/navigation@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@gravity-ui/navigation/-/navigation-1.4.2.tgz#f9527991fdd8ca3feeba718f89b8964ab8188b9e"
-  integrity sha512-4Uv0FHcfBgPhoRxRBmsvchRm85qjnHILg7OL0O5U7FhTy2ewkyNOG+KaSagigNv3XDdL3G8wD66Z7miHGXAjqA==
+"@gravity-ui/navigation@^1.6.2":
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@gravity-ui/navigation/-/navigation-1.6.2.tgz#35f10bac503697e1dfecda9cf72f54769dfba5d9"
+  integrity sha512-np2zfsEj+MFeVtSITRG+g7v2bhZ26TdcyPJGvvGyWvRUGwq5imzxRteb8khVcbFKcJeEXtjEg4ja832fUVH9hA==
   dependencies:
     "@gravity-ui/i18n" "^1.1.0"
     react-transition-group "^4.4.1"

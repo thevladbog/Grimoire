@@ -279,7 +279,9 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
           return (
             <>
               <ActionBarSingleSection />
-              <Outlet />
+              <div className="main__wrapper">
+                <Outlet />
+              </div>
             </>
           );
         }}

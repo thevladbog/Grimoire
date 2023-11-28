@@ -1,3 +1,10 @@
+import { SdNewcomersTable } from 'src/components/SdNewcomersTable/SdNewcomersTable.tsx';
+
 export const SdNewcomers = () => {
-  return <>SD Newcomers</>
-}
+  return (
+    <>
+      SD Newcomers
+      <SdNewcomersTable />
+    </>
+  );
+};

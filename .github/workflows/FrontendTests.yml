@@ -3,7 +3,7 @@ name: [Frontend] Tests on PR
 on:
   pull_request:
     paths:
-      - 'www-grimoire/**'
+      - './www-grimoire/**'
     types:
       - opened
       - reopened

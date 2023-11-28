@@ -2,7 +2,16 @@ name: Tests on PR
 
 on:
   pull_request:
-    branches: [ master ]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - labeled
+      - unlabeled
+    branches:
+      - main
+      - master
 
 jobs:
   build:

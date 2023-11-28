@@ -54,13 +54,6 @@ export const SdNewcomersTable = () => {
     const filteredRawData: IDataOfNewcomers[] = [];
     rawData.forEach((item: IDataOfNewcomers) => {
       for (const key in item) {
-        console.log(
-          'search',
-          item,
-          item[key as keyof typeof item],
-          text,
-          String(text),
-        );
         if (
           item[key as keyof typeof item].toLowerCase().includes(String(text))
         ) {
@@ -73,10 +66,6 @@ export const SdNewcomersTable = () => {
     setFilteredData(filteredRawData);
     changeDataWhenPaginate(filteredRawData);
     setTotalItems(filteredRawData.length);
-
-    console.log('RAW', rawData);
-    console.log('filteredData', filteredData);
-    console.log('paginatedData', paginatedData);
   };
 
   const changeDataWhenPaginate = (data: IDataOfNewcomers[]): void => {
@@ -84,8 +73,6 @@ export const SdNewcomersTable = () => {
       paginationConfig.pageSize * (paginationConfig.page - 1),
       paginationConfig.pageSize * paginationConfig.page,
     );
-
-    console.log(firstIteration);
 
     if (firstIteration.length <= paginationConfig.pageSize) {
       setPaginatedData(firstIteration);
@@ -108,10 +95,14 @@ export const SdNewcomersTable = () => {
     setTotalItems(filteredData.length);
     changeDataWhenSearch(filterParams);
     setRerenderFilteredData(false);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawData, rerenderFilteredData]);
 
   useEffect(() => {
     changeDataWhenSearch(filterParams);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterParams, paginationConfig]);
 
   const MyTable = withTableActions<IDataOfNewcomers>(Table);

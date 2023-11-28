@@ -1,6 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 
-import { AsideHeaderShowcase } from './components/MainLayout/MainLayout'
 import {
   CheckIn,
   Equipment,
@@ -8,7 +7,8 @@ import {
   HrNewcomers,
   Labels,
   SdNewcomers,
-} from './pages'
+} from './pages';
+import { Wrapper } from 'src/components/Wrapper.tsx';
 
 import {
   CheckInPageConfig,
@@ -17,23 +17,26 @@ import {
   LabelsPageConfig,
   MainPageConfig,
   SdNewcomersPageConfig,
-} from 'src/configs/pages.config.ts'
-import './App.scss'
+} from 'src/configs/pages.config.ts';
+import './App.scss';
+import ErrorPage from 'src/pages/ErrorPage.tsx';
 
 function App() {
   return (
     <>
-      <AsideHeaderShowcase />
       <Routes>
-        <Route path={MainPageConfig.link} element={<Home />} />
-        <Route path={SdNewcomersPageConfig.link} element={<SdNewcomers />} />
-        <Route path={EquipmentPageConfig.link} element={<Equipment />} />
-        <Route path={LabelsPageConfig.link} element={<Labels />} />
-        <Route path={CheckInPageConfig.link} element={<CheckIn />} />
-        <Route path={HrNewcomersPageConfig.link} element={<HrNewcomers />} />
+        <Route element={<Wrapper />}>
+          <Route path={MainPageConfig.link} element={<Home />} />
+          <Route path={SdNewcomersPageConfig.link} element={<SdNewcomers />} />
+          <Route path={EquipmentPageConfig.link} element={<Equipment />} />
+          <Route path={LabelsPageConfig.link} element={<Labels />} />
+          <Route path={CheckInPageConfig.link} element={<CheckIn />} />
+          <Route path={HrNewcomersPageConfig.link} element={<HrNewcomers />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

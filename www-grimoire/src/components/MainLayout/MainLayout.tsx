@@ -1,19 +1,40 @@
-import React, { FC, useState, useRef } from 'react'
-import { Button, Radio, RadioButton, Modal, Icon } from '@gravity-ui/uikit'
+import React, { FC, useState, useRef, useEffect } from 'react';
+import { useLocation, Outlet, useNavigate } from 'react-router-dom';
+import { Icon } from '@gravity-ui/uikit';
 import {
   AsideHeader,
   AsideHeaderTopAlertProps,
   FooterItem,
-} from '@gravity-ui/navigation'
-import { cn } from 'src/utils/cn.ts'
-import { menuItemsShowcase, text as placeholderText } from './menu-items.tsx'
-import { MenuItem } from '@gravity-ui/navigation'
-import { ClassNameFormatter } from '@bem-react/classname'
+} from '@gravity-ui/navigation';
+import { cn } from 'src/utils/cn.ts';
+import { ClassNameFormatter } from '@bem-react/classname';
 
-import { Bug, Gear } from '@gravity-ui/icons'
-import LogoIcon from 'src/assets/img/Grimoire_icon.svg'
+import {
+  CheckInPageConfig,
+  EquipmentPageConfig,
+  HrNewcomersPageConfig,
+  HrNewNewcomersPageConfig,
+  LabelsPageConfig,
+  SdNewcomersPageConfig,
+  SdNewNewcomersPageConfig,
+  SendSmsPageConfig,
+  SmsLogsPageConfig,
+} from 'src/configs/pages.config.ts';
 
-import './MainLayout.scss'
+import {
+  Bug,
+  CircleCheck,
+  Comment,
+  Comments,
+  Display,
+  Gear,
+  PersonMagnifier,
+  Plus,
+  Printer,
+} from '@gravity-ui/icons';
+import LogoIcon from 'src/assets/img/Grimoire_icon.svg';
+
+import './MainLayout.scss';
 
 enum Panel {
   ProjectSettings = 'projectSettings',
@@ -27,57 +48,40 @@ interface AsideHeaderShowcaseProps {
   initialCompact?: boolean;
 }
 
-const ASIDE_HEADER_ICON_SIZE: number = 18
+const ASIDE_HEADER_ICON_SIZE: number = 18;
 
-const b: ClassNameFormatter = cn('aside-header-showcase')
-
-const BOOLEAN_OPTIONS = {
-  Yes: 'yes',
-  No: 'no',
-}
+const b: ClassNameFormatter = cn('aside-header-showcase');
 
 export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
   multipleTooltip = false,
   initialCompact = false,
 }) => {
-  const ref: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
-  const [popupVisible, setPopupVisible] = useState<boolean>(false)
+  const ref: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const [popupVisible, setPopupVisible] = useState<boolean>(false);
   //const [subheaderPopupVisible, setSubheaderPopupVisible] = React.useState<boolean>(false);
-  const [visiblePanel, setVisiblePanel] = useState<Panel>()
-  const [compact, setCompact] = useState<boolean>(initialCompact)
-  const [headerDecoration, setHeaderDecoration] = useState<string>(
-    BOOLEAN_OPTIONS.Yes
-  )
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [visiblePanel, setVisiblePanel] = useState<Panel>();
+  const [compact, setCompact] = useState<boolean>(initialCompact);
+  const [currentItem, setCurrentItem] = useState<string>();
 
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([
-    ...menuItemsShowcase,
-    {
-      id: 'components',
-      title: 'Components',
-      icon: Gear,
-      current: visiblePanel === Panel.Components,
-      onItemClick: () =>
-        setVisiblePanel(
-          visiblePanel === Panel.Components ? undefined : Panel.Components
-        ),
-    },
-  ])
   const topAlert: AsideHeaderTopAlertProps = {
     view: 'filled',
     message: 'The site is under development',
     centered: true,
     dense: true,
     theme: 'danger',
-  }
+  };
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setCurrentItem(location.pathname);
+  }, [location.pathname]);
+
+  console.log(location.pathname, currentItem);
 
   return (
-    <div className={b()}>
-      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className={b('content')}>
-          <pre>{placeholderText}</pre>
-        </div>
-      </Modal>
+    <nav className={b()}>
       <AsideHeader
         ref={ref}
         logo={{
@@ -87,9 +91,102 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
           iconSize: 40,
           onClick: () => alert('click on logo'),
         }}
-        headerDecoration={headerDecoration === BOOLEAN_OPTIONS.Yes}
-        onMenuItemsChanged={setMenuItems}
-        menuItems={menuItems}
+        headerDecoration={true}
+        menuItems={[
+          {
+            id: SdNewcomersPageConfig.id,
+            title: SdNewcomersPageConfig.title,
+            current: SdNewcomersPageConfig.link === currentItem,
+            icon: PersonMagnifier,
+            onItemClick() {
+              navigate(SdNewcomersPageConfig.link);
+            },
+          },
+          {
+            id: SmsLogsPageConfig.id,
+            title: SmsLogsPageConfig.title,
+            current: SmsLogsPageConfig.link === currentItem,
+            icon: Comments,
+            onItemClick() {
+              navigate(SmsLogsPageConfig.link);
+            },
+          },
+          {
+            id: EquipmentPageConfig.id,
+            title: EquipmentPageConfig.title,
+            current: EquipmentPageConfig.link === currentItem,
+            icon: Display,
+            onItemClick() {
+              navigate(EquipmentPageConfig.link);
+            },
+          },
+          {
+            id: LabelsPageConfig.id,
+            title: LabelsPageConfig.title,
+            current: LabelsPageConfig.link === currentItem,
+            icon: Printer,
+            onItemClick() {
+              navigate(LabelsPageConfig.link);
+            },
+          },
+          {
+            id: CheckInPageConfig.id,
+            title: CheckInPageConfig.title,
+            current: CheckInPageConfig.link === currentItem,
+            icon: CircleCheck,
+            onItemClick() {
+              navigate(CheckInPageConfig.link);
+            },
+          },
+          {
+            id: SdNewNewcomersPageConfig.id,
+            title: SdNewNewcomersPageConfig.title,
+            type: 'action',
+            icon: Plus,
+            afterMoreButton: true,
+            onItemClick() {
+              navigate(SdNewNewcomersPageConfig.link);
+            },
+          },
+          {
+            id: 'hrDivider',
+            title: '-',
+            type: 'divider',
+          },
+          {
+            id: HrNewcomersPageConfig.id,
+            title: HrNewcomersPageConfig.title,
+            current: HrNewcomersPageConfig.link === currentItem,
+            icon: PersonMagnifier,
+            onItemClick() {
+              navigate(HrNewcomersPageConfig.link);
+            },
+          },
+          {
+            id: HrNewNewcomersPageConfig.id,
+            title: HrNewNewcomersPageConfig.title,
+            type: 'action',
+            icon: Plus,
+            afterMoreButton: true,
+            onItemClick() {
+              navigate(HrNewNewcomersPageConfig.link);
+            },
+          },
+          {
+            id: 'smsDivider',
+            title: '-',
+            type: 'divider',
+          },
+          {
+            id: SendSmsPageConfig.id,
+            title: SendSmsPageConfig.title,
+            current: SendSmsPageConfig.link === currentItem,
+            icon: Comment,
+            onItemClick() {
+              navigate(SendSmsPageConfig.link);
+            },
+          },
+        ]}
         subheaderItems={[]}
         compact={compact}
         topAlert={topAlert}
@@ -110,8 +207,8 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
                 ),
                 tooltipText: 'Minor issue (Now)',
                 onItemClick: () => {
-                  setVisiblePanel(undefined)
-                  setPopupVisible(!popupVisible)
+                  setVisiblePanel(undefined);
+                  setPopupVisible(!popupVisible);
                 },
               }}
               enableTooltip={false}
@@ -131,7 +228,7 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
                       <li>Set 4</li>
                     </ul>
                   </div>
-                )
+                );
               }}
             />
             <FooterItem
@@ -153,8 +250,8 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
                   setVisiblePanel(
                     visiblePanel === Panel.ProjectSettings
                       ? undefined
-                      : Panel.ProjectSettings
-                  )
+                      : Panel.ProjectSettings,
+                  );
                 },
               }}
               bringForward
@@ -171,8 +268,8 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
                   setVisiblePanel(
                     visiblePanel === Panel.UserSettings
                       ? undefined
-                      : Panel.UserSettings
-                  )
+                      : Panel.UserSettings,
+                  );
                 },
               }}
               compact={compact}
@@ -180,23 +277,7 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
           </React.Fragment>
         )}
         renderContent={() => {
-          return (
-            <div className={b('content')}>
-              <pre>{placeholderText}</pre>
-              <RadioButton
-                value={headerDecoration}
-                onChange={(event) => {
-                  setHeaderDecoration(event.target.value)
-                }}
-              >
-                <Radio value={BOOLEAN_OPTIONS.No}>No</Radio>
-                <Radio value={BOOLEAN_OPTIONS.Yes}>Yes</Radio>
-              </RadioButton>
-              <br />
-              <br />
-              <Button onClick={() => setIsModalOpen(true)}>Open Modal</Button>
-            </div>
-          )
+          return <Outlet />;
         }}
         panelItems={[
           {
@@ -224,9 +305,9 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
         ]}
         onClosePanel={() => setVisiblePanel(undefined)}
         onChangeCompact={(v) => {
-          setCompact(v)
+          setCompact(v);
         }}
       />
-    </div>
-  )
-}
+    </nav>
+  );
+};

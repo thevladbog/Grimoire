@@ -1,4 +1,4 @@
-name: Tests on PR
+name: [Frontend] Tests on PR
 
 on:
   pull_request:
@@ -12,6 +12,8 @@ on:
     branches:
       - main
       - master
+    paths:
+      - 'www-desktop/'
 
 jobs:
   build:
@@ -34,7 +36,7 @@ jobs:
 
       - name: Building
         working-directory: ./www-grimoire
-        run: yarn build --if-present
+        run: yarn build
 
       - name: Linting
         working-directory: ./www-grimoire

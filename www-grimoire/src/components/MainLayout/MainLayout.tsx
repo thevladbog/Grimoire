@@ -83,7 +83,7 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
         logo={{
           text: () => <p className="main__logo-text">Grimoire</p>,
           iconSrc: LogoIcon,
-          href: '#',
+          href: '/',
           iconSize: 40,
           onClick: () => alert('click on logo'),
         }}

@@ -1,12 +1,12 @@
-import { IPageConfig } from 'src/types/types.ts'
-import { USER_ROLES } from '../../../shared/types.ts'
+import { IPageConfig } from 'src/types/types.ts';
+import { USER_ROLES } from '../../../shared/types.ts';
 
 export const MainPageConfig: IPageConfig = {
   id: 'main',
   link: '/',
   permission: [],
   title: 'Grimoire',
-}
+};
 
 export const SdNewcomersPageConfig: IPageConfig = {
   id: 'sdNewcomers',
@@ -17,14 +17,14 @@ export const SdNewcomersPageConfig: IPageConfig = {
     USER_ROLES.SERVICE_DESK,
     USER_ROLES.SERVICE_DESK_ELEVATED,
   ],
-}
+};
 
 export const SmsLogsPageConfig: IPageConfig = {
   id: 'sdSmsLogs',
   link: '/sd/sms-logs',
   title: 'SMS Logs',
   permission: [USER_ROLES.ADMIN, USER_ROLES.SERVICE_DESK_ELEVATED],
-}
+};
 
 export const EquipmentPageConfig: IPageConfig = {
   id: 'equipment',
@@ -35,7 +35,7 @@ export const EquipmentPageConfig: IPageConfig = {
     USER_ROLES.SERVICE_DESK,
     USER_ROLES.SERVICE_DESK_ELEVATED,
   ],
-}
+};
 
 export const LabelsPageConfig: IPageConfig = {
   id: 'labels',
@@ -46,7 +46,7 @@ export const LabelsPageConfig: IPageConfig = {
     USER_ROLES.SERVICE_DESK,
     USER_ROLES.SERVICE_DESK_ELEVATED,
   ],
-}
+};
 
 export const CheckInPageConfig: IPageConfig = {
   id: 'checkIn',
@@ -57,7 +57,7 @@ export const CheckInPageConfig: IPageConfig = {
     USER_ROLES.SERVICE_DESK,
     USER_ROLES.SERVICE_DESK_ELEVATED,
   ],
-}
+};
 
 export const SdNewNewcomersPageConfig: IPageConfig = {
   id: 'sdNewNewcomers',
@@ -68,7 +68,7 @@ export const SdNewNewcomersPageConfig: IPageConfig = {
     USER_ROLES.SERVICE_DESK,
     USER_ROLES.SERVICE_DESK_ELEVATED,
   ],
-}
+};
 
 export const HrNewcomersPageConfig: IPageConfig = {
   id: 'hrNewcomers',
@@ -80,7 +80,7 @@ export const HrNewcomersPageConfig: IPageConfig = {
     USER_ROLES.RECRUITER,
     USER_ROLES.RECRUITER_MANAGER,
   ],
-}
+};
 export const HrNewNewcomersPageConfig: IPageConfig = {
   id: 'hrNewNewcomers',
   link: '/hr/newcomers/new',
@@ -90,7 +90,7 @@ export const HrNewNewcomersPageConfig: IPageConfig = {
     USER_ROLES.RECRUITER,
     USER_ROLES.RECRUITER_MANAGER,
   ],
-}
+};
 
 export const SendSmsPageConfig: IPageConfig = {
   id: 'sms',
@@ -104,4 +104,17 @@ export const SendSmsPageConfig: IPageConfig = {
     USER_ROLES.SERVICE_DESK,
     USER_ROLES.SERVICE_DESK_ELEVATED,
   ],
-}
+};
+
+export const allPagesConfigs: IPageConfig[] = [
+  MainPageConfig,
+  SdNewcomersPageConfig,
+  SmsLogsPageConfig,
+  EquipmentPageConfig,
+  LabelsPageConfig,
+  CheckInPageConfig,
+  SdNewNewcomersPageConfig,
+  HrNewcomersPageConfig,
+  HrNewNewcomersPageConfig,
+  SendSmsPageConfig,
+];

@@ -34,6 +34,7 @@
     "@bem-react/classname": "1.6.0",
     "@gravity-ui/babel-preset": "^1.0.1",
     "@gravity-ui/uikit": "^5.1.0",
+    "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.10",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
@@ -44,11 +45,13 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "identity-obj-proxy": "^3.0.0",
     "lint-staged": "^15.1.0",
     "prettier": "^3.1.0",
     "sass": "^1.69.5",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2",
+    "use-resize-observer": "^9.1.0",
     "vite": "^5.0.0"
   },
   "lint-staged": {

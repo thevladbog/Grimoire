@@ -55,7 +55,9 @@ export const SdNewcomersTable = () => {
     rawData.forEach((item: IDataOfNewcomers) => {
       for (const key in item) {
         if (
-          item[key as keyof typeof item].toLowerCase().includes(String(text))
+          item[key as keyof typeof item]
+            .toLowerCase()
+            .includes(String(text).toLowerCase())
         ) {
           filteredRawData.push(item);
           return;

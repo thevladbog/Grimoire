@@ -13,7 +13,7 @@ on:
       - main
       - master
     paths:
-      - 'www-desktop/**'
+      - './www-desktop/**'
 
 jobs:
   build:

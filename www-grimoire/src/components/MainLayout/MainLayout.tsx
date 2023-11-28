@@ -35,6 +35,7 @@ import {
 import LogoIcon from 'src/assets/img/Grimoire_icon.svg';
 
 import './MainLayout.scss';
+import { ActionBarSingleSection } from 'src/components/ActionBar/ActionBarWithBreadcrumbs.tsx';
 
 enum Panel {
   ProjectSettings = 'projectSettings',
@@ -77,8 +78,6 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
   useEffect(() => {
     setCurrentItem(location.pathname);
   }, [location.pathname]);
-
-  console.log(location.pathname, currentItem);
 
   return (
     <nav className={b()}>
@@ -277,7 +276,12 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
           </React.Fragment>
         )}
         renderContent={() => {
-          return <Outlet />;
+          return (
+            <>
+              <ActionBarSingleSection />
+              <Outlet />
+            </>
+          );
         }}
         panelItems={[
           {

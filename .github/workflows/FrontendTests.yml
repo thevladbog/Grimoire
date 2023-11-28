@@ -1,0 +1,48 @@
+name: Frontend - Tests on PR
+
+on:
+  pull_request:
+    paths:
+      - 'www-grimoire/**'
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - labeled
+      - unlabeled
+    branches:
+      - main
+      - master
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x,]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        working-directory: ./www-grimoire
+        run: yarn
+
+      - name: Building
+        working-directory: ./www-grimoire
+        run: yarn build
+
+      - name: Linting
+        working-directory: ./www-grimoire
+        run: yarn lint
+
+      - name: Tests
+        working-directory: ./www-grimoire
+        run: yarn test

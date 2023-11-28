@@ -2,6 +2,8 @@ name: [Frontend] Tests on PR
 
 on:
   pull_request:
+    paths:
+      - 'www-grimoire/**'
     types:
       - opened
       - reopened
@@ -12,8 +14,7 @@ on:
     branches:
       - main
       - master
-    paths:
-      - './www-desktop/**'
+
 
 jobs:
   build:

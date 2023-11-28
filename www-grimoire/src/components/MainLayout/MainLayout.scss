@@ -93,3 +93,10 @@
   font-size: x-large;
   font-weight: bold;
 }
+
+.main__wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  align-items: center;
+}

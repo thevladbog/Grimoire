@@ -28,8 +28,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd www-grimoire
-      - run: yarn
-      - run: yarn build --if-present
-      - run: yarn lint
-      - run: yarn test
+      - name: Install dependencies
+        working-directory: ./www-grimoire
+        run: yarn
+
+      - name: Building
+        working-directory: ./www-grimoire
+        run: yarn build --if-present
+
+      - name: Linting
+        working-directory: ./www-grimoire
+        run: yarn lint
+
+      - name: Tests
+        working-directory: ./www-grimoire
+        run: yarn test

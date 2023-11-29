@@ -15,10 +15,18 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
-  schedule:
-    - cron: '44 6 * * 0'
+    paths:
+      - 'www-grimoire/**'
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - labeled
+      - unlabeled
+    branches:
+      - main
+      - master
 
 jobs:
   analyze:

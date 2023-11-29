@@ -8,17 +8,17 @@ import {
   TextInput,
 } from '@gravity-ui/uikit';
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 import { mockData } from './__tests__/mock.ts';
 
-import styles from './SdNewcomersTable.module.scss';
+import styles from './HrNewcomersTable.module.scss';
 
-export interface IDataOfNewcomers {
+export interface IDataOfHrNewcomers {
   id: string;
-  nameEn: string;
   nameRu: string;
-  domainName: string;
-  email: string;
+  manager: string;
+  position: string;
   startDate: string;
   request: string;
 }
@@ -28,10 +28,10 @@ interface IPaginationConfig {
   pageSize: number;
 }
 
-export const SdNewcomersTable = () => {
-  const [rawData, setRawData] = useState<IDataOfNewcomers[]>([]);
-  const [filteredData, setFilteredData] = useState<IDataOfNewcomers[]>([]);
-  const [paginatedData, setPaginatedData] = useState<IDataOfNewcomers[]>([]);
+export const HrNewcomersTable = () => {
+  const [rawData, setRawData] = useState<IDataOfHrNewcomers[]>([]);
+  const [filteredData, setFilteredData] = useState<IDataOfHrNewcomers[]>([]);
+  const [paginatedData, setPaginatedData] = useState<IDataOfHrNewcomers[]>([]);
   const [paginationConfig, setPaginationConfig] = useState<IPaginationConfig>({
     page: 1,
     pageSize: 10,
@@ -51,8 +51,8 @@ export const SdNewcomersTable = () => {
   };
 
   const changeDataWhenSearch = (text: string) => {
-    const filteredRawData: IDataOfNewcomers[] = [];
-    rawData.forEach((item: IDataOfNewcomers) => {
+    const filteredRawData: IDataOfHrNewcomers[] = [];
+    rawData.forEach((item: IDataOfHrNewcomers) => {
       for (const key in item) {
         if (
           item[key as keyof typeof item]
@@ -70,8 +70,8 @@ export const SdNewcomersTable = () => {
     setTotalItems(filteredRawData.length);
   };
 
-  const changeDataWhenPaginate = (data: IDataOfNewcomers[]): void => {
-    const firstIteration: IDataOfNewcomers[] = data.slice(
+  const changeDataWhenPaginate = (data: IDataOfHrNewcomers[]): void => {
+    const firstIteration: IDataOfHrNewcomers[] = data.slice(
       paginationConfig.pageSize * (paginationConfig.page - 1),
       paginationConfig.pageSize * paginationConfig.page,
     );
@@ -80,7 +80,7 @@ export const SdNewcomersTable = () => {
       setPaginatedData(firstIteration);
       return;
     }
-    const secondIteration: IDataOfNewcomers[] = firstIteration.slice(
+    const secondIteration: IDataOfHrNewcomers[] = firstIteration.slice(
       paginationConfig.pageSize * paginationConfig.page,
     );
 
@@ -107,32 +107,28 @@ export const SdNewcomersTable = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterParams, paginationConfig]);
 
-  const MyTable = withTableActions<IDataOfNewcomers>(Table);
-  const columns: TableColumnConfig<IDataOfNewcomers>[] = [
+  const MyTable = withTableActions<IDataOfHrNewcomers>(Table);
+  const columns: TableColumnConfig<IDataOfHrNewcomers>[] = [
     {
       id: 'nameRu',
       name: 'Name RU',
+      width: '35%',
+    },
+    {
+      id: 'position',
+      name: 'Position',
       width: '20%',
     },
     {
-      id: 'nameEn',
-      name: 'Name EN ',
-      width: '20%',
-    },
-    {
-      id: 'domainName',
-      name: 'Domain Name',
-      width: '15%',
-    },
-    {
-      id: 'email',
-      name: 'Email',
-      width: '20%',
+      id: 'manager',
+      name: 'Manager',
+      width: '25%',
     },
     {
       id: 'startDate',
       name: 'Start Date',
-      width: '10%',
+      width: '15%',
+      template: (item) => dayjs(item.startDate).format('DD.MM.YYYY'),
     },
     {
       id: 'request',
@@ -141,10 +137,10 @@ export const SdNewcomersTable = () => {
     },
   ];
 
-  const getRowActions = (
-    item: IDataOfNewcomers,
+  const getHrRowActions = (
+    item: IDataOfHrNewcomers,
     index: number,
-  ): TableActionConfig<IDataOfNewcomers>[] => {
+  ): TableActionConfig<IDataOfHrNewcomers>[] => {
     return [
       {
         text: 'Print',
@@ -173,20 +169,21 @@ export const SdNewcomersTable = () => {
           hasClear={true}
         />
       </div>
-      <MyTable
-        data={paginatedData}
-        className={styles.table}
-        columns={columns}
-        onRowClick={(
-          item: IDataOfNewcomers,
-          index: number,
-          event: React.MouseEvent<HTMLTableRowElement>,
-        ) => {
-          console.log(item, index, event);
-        }}
-        getRowActions={getRowActions}
-        wordWrap={true}
-      />
+      <div className={styles.table}>
+        <MyTable
+          data={paginatedData}
+          columns={columns}
+          onRowClick={(
+            item: IDataOfHrNewcomers,
+            index: number,
+            event: React.MouseEvent<HTMLTableRowElement>,
+          ) => {
+            console.log(item, index, event);
+          }}
+          getRowActions={getHrRowActions}
+          wordWrap={true}
+        />
+      </div>
       <Pagination
         page={paginationConfig.page}
         pageSize={paginationConfig.pageSize}

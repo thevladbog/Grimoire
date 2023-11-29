@@ -1,0 +1,39 @@
+name: Frontend - Preview Deployment
+
+env:
+  VERCEL_ACCESS_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  workflow_run:
+    workflows: [ 'Frontend - Tests on PR' ]
+    types:
+      - completed
+  pull_request:
+    paths:
+      - 'www-grimoire/**'
+    types: [opened, synchronize, closed]
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.event.action == 'opened' || github.event.action == 'synchronize' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for other checks to succeed
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          running-workflow-name: 'Frontend - Tests on PR'
+          repo-token: ${{ secrets.IN_TOKEN }}
+          wait-interval: 10
+      - name: Deploy on Vercel
+        uses: snaplet/vercel-action@v3
+  delete:
+    if: ${{ github.event.action == 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: snaplet/vercel-action@v3
+        with:
+          delete: true

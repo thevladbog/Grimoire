@@ -112,7 +112,7 @@ export const HrNewcomersTable = () => {
     {
       id: 'nameRu',
       name: 'Name RU',
-      width: '35%',
+      width: '25%',
     },
     {
       id: 'position',

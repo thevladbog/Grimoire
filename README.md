@@ -1,3 +1,5 @@
+[![Frontend - Tests on PR](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

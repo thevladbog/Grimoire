@@ -9,7 +9,7 @@
 [![Dependency Review](https://github.com/thevladbog/Grimoire/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/dependency-review.yml)
 [![codecov](https://codecov.io/gh/thevladbog/Grimoire/graph/badge.svg?token=NVIXEWXPT9)](https://codecov.io/gh/thevladbog/Grimoire)
 ***
-
+TEST
 ## About
 Система предназначена для контроля выхода новых сотрудников в компанию. Охватывает путь от заведения заявки рекрутером на выход до самого выхода в компанию.
 

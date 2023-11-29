@@ -1,8 +1,9 @@
-[![](https://github.com/thevladbog/Grimoire/blob/main/www-grimoire/src/assets/img/Grimoire_README_logo.png?raw=true)]()
+[<p align="center"><img src="https://github.com/thevladbog/Grimoire/blob/main/www-grimoire/src/assets/img/Grimoire_README_logo.png?raw=true" title="Grimoire Logo" /></p>]()
 ***
 # Grimoire | HR System
 [![Frontend - Tests on PR](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml)
-![Vercel](https://vercelbadge.vercel.app/api/thevladbog/grimoire)
+[![Vercel](https://vercelbadge.vercel.app/api/thevladbog/grimoire)](https://grimoire.v-b.tech/)
+[![Checkly](https://api.checklyhq.com/v1/badges/checks/74de1542-cd40-4622-ae21-2e5a5e821b90)](https://grimoire.checkly-dashboards.com/)
 ***
 
 ## About
@@ -28,7 +29,7 @@
 ## To-Do
 
 Бэклог проека ведется и наполняется в [[Grimoire] Project](https://github.com/users/thevladbog/projects/2/views/1).
-Если у вас есть дополнительные идеи - создавай их в [Issue](https://github.com/thevladbog/Grimoire/issues/new?assignees=&labels=&projects=&template=feature_request.md&title=)
+Если у вас есть дополнительные идеи - создавай их в [Issue](https://github.com/thevladbog/Grimoire/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=%5BIDEA%5D)
 
 
 ## Пример дизайна (будет обновляться)

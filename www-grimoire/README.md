@@ -7,6 +7,7 @@
 [![Checkly](https://api.checklyhq.com/v1/badges/checks/74de1542-cd40-4622-ae21-2e5a5e821b90)](https://grimoire.checkly-dashboards.com/)
 [![CodeQL](https://github.com/thevladbog/Grimoire/actions/workflows/codeql.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/codeql.yml)
 [![Dependency Review](https://github.com/thevladbog/Grimoire/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/dependency-review.yml)
+[![codecov](https://codecov.io/gh/thevladbog/Grimoire/graph/badge.svg?token=NVIXEWXPT9)](https://codecov.io/gh/thevladbog/Grimoire)
 ***
 
 ## About

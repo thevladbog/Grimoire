@@ -1,32 +1,36 @@
+[![](https://github.com/thevladbog/Grimoire/blob/main/www-grimoire/src/assets/img/Grimoire_README_logo.png?raw=true)]()
+***
+# Grimoire | HR System
 [![Frontend - Tests on PR](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml)
+![Vercel](https://vercelbadge.vercel.app/api/thevladbog/grimoire)
+***
 
-# React + TypeScript + Vite
+## About
+Система предназначена для контроля выхода новых сотрудников в компанию. Охватывает путь от заведения заявки рекрутером на выход до самого выхода в компанию.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Основные этапы
 
-Currently, two official plugins are available:
+- рекрутер заводит заявку, в которой указывает:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    - ФИО нового сотрудника;
+    - контактный адрес электронной почты;
+    - выбранная конфигурация оборудования;
+    - ФИО будущего руководителя;
+    - необходимые доступы, возможные к выдаче в первый рабочий день;
+    - дата выхода;
+- будущий сотрудник получает ссылку на заполнение полной анкеты о себе (ФИО, данные документов, их сканы и т.д.)%
+- в Service Desk формируется заявка на создание корпоративной учетной записи. Итог: в систему внесены корректыне данные (логин, корпоративная почта, ФИО, домен);
+- после: формируется заявка в Service Desk на подготовку оборудования;
+- в Service Desk формируются отдельные заявки на получение доступов (один доступ - одна заявка);
+- коллеги из кадрового администрирования имеют доступ к полным данным нового сотрудника;
+- в день выхода коллеги из Service Desk отмечают выход сотрудника в компанию.
 
-## Expanding the ESLint configuration
+## To-Do
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Бэклог проека ведется и наполняется в [[Grimoire] Project](https://github.com/users/thevladbog/projects/2/views/1).
+Если у вас есть дополнительные идеи - создавай их в [Issue](https://github.com/thevladbog/Grimoire/issues/new?assignees=&labels=&projects=&template=feature_request.md&title=)
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Пример дизайна (будет обновляться)
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+![](https://github.com/thevladbog/Grimoire/blob/main/www-grimoire/src/assets/img/Grimoire_Example.png?raw=true)

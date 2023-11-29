@@ -9,7 +9,7 @@ import {
 } from '@gravity-ui/uikit';
 import React, { useEffect, useState } from 'react';
 
-import { mockData } from './mock.ts';
+import { mockData } from './__tests__/mock.ts';
 
 import styles from './SdNewcomersTable.module.scss';
 

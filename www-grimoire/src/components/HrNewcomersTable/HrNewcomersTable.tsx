@@ -10,9 +10,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { mockData } from './mock.ts';
+import { mockData } from './__tests__/mock.ts';
 
-import styles from 'src/components/HrNewcomersTable/HrNewcomersTable.module.scss';
+import styles from './HrNewcomersTable.module.scss';
 
 export interface IDataOfHrNewcomers {
   id: string;

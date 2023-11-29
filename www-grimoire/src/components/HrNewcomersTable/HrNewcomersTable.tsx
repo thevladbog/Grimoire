@@ -112,7 +112,7 @@ export const HrNewcomersTable = () => {
     {
       id: 'nameRu',
       name: 'Name RU',
-      width: '30%',
+      width: '35%',
     },
     {
       id: 'position',
@@ -122,7 +122,7 @@ export const HrNewcomersTable = () => {
     {
       id: 'manager',
       name: 'Manager',
-      width: '20%',
+      width: '25%',
     },
     {
       id: 'startDate',

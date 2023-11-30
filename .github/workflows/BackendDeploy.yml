@@ -20,9 +20,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      env:
-        POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-        POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
@@ -30,14 +27,17 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
+      env:
+        POSTGRES_PRISMA_URL: ${{ env.POSTGRES_PRISMA_URL }}
+        POSTGRES_URL_NON_POOLING: ${{ env.POSTGRES_URL_NON_POOLING }}
       working-directory: backend
       run: npm install
 
     - name: Build project
-      working-directory: backend
       env:
-        POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-        POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+        POSTGRES_PRISMA_URL: ${{ env.POSTGRES_PRISMA_URL }}
+        POSTGRES_URL_NON_POOLING: ${{ env.POSTGRES_URL_NON_POOLING }}
+      working-directory: backend
       run: npm run build
 
     - name: Restart pm2

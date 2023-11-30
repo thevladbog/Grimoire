@@ -30,14 +30,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: echo "Hello $POSTGRES_PRISMA_URL."
-    - run: echo "Hello $POSTGRES_URL_NON_POOLING."
-
     - name: Install dependencies
+      with:
+        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
       working-directory: backend
       run: npm install
 
     - name: Build project
+      with:
+        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
       working-directory: backend
       run: npm run build
 

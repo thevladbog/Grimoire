@@ -32,7 +32,7 @@ jobs:
       run: pwd
 
     - name: Open directory
-      run: cd /www/actions-runner/backend/Grimoire/Grimoire/backend/
+      run: cd backend
 
     - name: Install dependencies
       run: yarn 

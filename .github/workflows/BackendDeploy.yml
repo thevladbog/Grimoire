@@ -44,8 +44,7 @@ jobs:
       run: rm -r /home/bot_cerberus/data/www/sins.v-b.tech/dist
 
     - name: Move built project
-      working-directory: backend
-      run: mv -f /home/bot_cerberus/data/www/sins.v-b.tech
+      run: mv -f backend /home/bot_cerberus/data/www/sins.v-b.tech
 
     - name: Restart pm2
       working-directory: backend

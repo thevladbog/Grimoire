@@ -38,7 +38,7 @@ jobs:
 
     - name: Move built project
       working-directory: backend
-      run: mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
+      run: mv -f dist /var/www/bot_cerberus/data/www/sins.v-b.tech
 
     - name: Restart pm2
       working-directory: backend

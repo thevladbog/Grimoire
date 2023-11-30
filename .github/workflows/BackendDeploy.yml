@@ -30,10 +30,19 @@ jobs:
 
     - name: Install dependencies
       working-directory: backend
-      run: |
-        pwd
-        npm i
-        npm run build
-        mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
-        cd /var/www/bot_cerberus/data/www/sins.v-b.tech
-        pwd
+      run: yarn install
+
+    - name: Build project
+      working-directory: backend
+      run: yarn build
+
+    - name: Move built project
+      working-directory: backend
+      run: mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
+
+    - name: Restart pm2
+      working-directory: backend
+      run: pm2 restart BackendAPI
+
+    - name: Delete project
+      run: rm -r *

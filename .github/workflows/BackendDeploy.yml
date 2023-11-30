@@ -45,7 +45,7 @@ jobs:
 
     - name: Restart pm2
       working-directory: backend
-      run: pm2 restart BackendAPI
+      run: npm run restart
 
     - name: Delete project
       run: rm -r *

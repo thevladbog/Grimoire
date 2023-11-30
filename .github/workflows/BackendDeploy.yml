@@ -22,22 +22,22 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: backend/yarn.lock
 
+    - name: Open directory
+      run: cd /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend/
+
     - name: Install dependencies
-      working-directory: /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend
       run: yarn 
       
     - name: Building
-      working-directory: /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend
       run: yarn build
       
     - name: Move directory
-      working-directory: /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend
       run: mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
 
     - run: cd /var/www/bot_cerberus/data/www/sins.v-b.tech

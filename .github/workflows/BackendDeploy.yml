@@ -10,9 +10,13 @@ on:
       - 'backend/**'
 
 jobs:
-  build:
+  deployment:
+    env:
+      POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+      POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
 
     runs-on: self-hosted
+    environment: Production – sins
 
     strategy:
       matrix:
@@ -26,17 +30,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - run: echo "Hello $POSTGRES_PRISMA_URL."
+    - run: echo "Hello $POSTGRES_URL_NON_POOLING."
+
     - name: Install dependencies
-      env:
-        POSTGRES_PRISMA_URL: ${{ env.POSTGRES_PRISMA_URL }}
-        POSTGRES_URL_NON_POOLING: ${{ env.POSTGRES_URL_NON_POOLING }}
       working-directory: backend
       run: npm install
 
     - name: Build project
-      env:
-        POSTGRES_PRISMA_URL: ${{ env.POSTGRES_PRISMA_URL }}
-        POSTGRES_URL_NON_POOLING: ${{ env.POSTGRES_URL_NON_POOLING }}
       working-directory: backend
       run: npm run build
 

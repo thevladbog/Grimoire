@@ -9,11 +9,12 @@ on:
     paths:
       - 'backend/**'
 
+env:
+  POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+  POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+
 jobs:
   deployment:
-    env:
-      POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-      POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
 
     runs-on: self-hosted
     environment: Production – sins
@@ -29,16 +30,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
 
     - name: Install dependencies
-      with:
-        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
       working-directory: backend
       run: npm install
 
     - name: Build project
-      with:
-        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
       working-directory: backend
       run: npm run build
 

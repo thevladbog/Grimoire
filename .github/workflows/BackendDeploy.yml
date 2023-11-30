@@ -5,9 +5,9 @@ name: Backend - Deploy on VPS
 
 on:
   push:
+    branches: [ "main" ]
     paths:
       - 'www-grimoire/**'
-    branches: [ "main" ]
 
 jobs:
   build:

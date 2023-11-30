@@ -26,6 +26,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Settings variables
+      working-directory: backend
+      run: |
+        touch .env
+        echo POSTGRES_PRISMA_URL=$POSTGRES_PRISMA_URL >> .env
+        echo POSTGRES_URL_NON_POOLING=$POSTGRES_URL_NON_POOLING >> .env
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -38,8 +45,6 @@ jobs:
     - name: Build project
       working-directory: backend
       run: npm run build
-      with:
-        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
 
 
     - name: Restart pm2

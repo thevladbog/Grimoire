@@ -25,12 +25,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        envs: POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING
 
     - name: Install dependencies
       working-directory: backend
@@ -39,6 +40,7 @@ jobs:
     - name: Build project
       working-directory: backend
       run: npm run build
+
 
     - name: Restart pm2
       working-directory: backend

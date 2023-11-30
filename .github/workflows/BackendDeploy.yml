@@ -29,15 +29,15 @@ jobs:
         cache-dependency-path: backend/yarn.lock
 
     - name: Install dependencies
-      working-directory: /backend
+      working-directory: /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend
       run: yarn 
       
     - name: Building
-      working-directory: /backend
+      working-directory: /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend
       run: yarn build
       
     - name: Move directory
-      working-directory: /backend
+      working-directory: /var/www/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/backend
       run: mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
 
     - run: cd /var/www/bot_cerberus/data/www/sins.v-b.tech

@@ -357,7 +357,6 @@ export const HrNewcomersForm = () => {
                     }}
                   >
                     {
-                      /* eslint-disable */
                       // prettier-ignore
                       (Object.keys(EquipmentOptions) as (keyof typeof EquipmentOptions)[])
                         .map((key) => {
@@ -457,7 +456,6 @@ export const HrNewcomersForm = () => {
                     }}
                   >
                     {
-                      /* eslint-disable */
                       // prettier-ignore
                       (Object.keys(AccessesOptions) as (keyof typeof AccessesOptions)[])
                         .map((key) => {

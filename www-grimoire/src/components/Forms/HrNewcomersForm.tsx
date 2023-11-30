@@ -6,11 +6,11 @@ import {
   Button,
   Select,
   TextArea,
+  Text,
 } from '@gravity-ui/uikit';
 import { DatePicker } from '@gravity-ui/date-components';
 import { dateTime, DateTime } from '@gravity-ui/date-utils';
 import { customAlphabet } from 'nanoid';
-//import { DynamicField, dynamicConfig } from '@gravity-ui/dynamic-forms';
 import { EquipmentOptions } from 'src/components/Forms/configs/equipment.ts';
 
 import {
@@ -19,18 +19,19 @@ import {
   CirclePlus,
   CircleMinus,
   Display,
+  Key,
 } from '@gravity-ui/icons';
 
-//import { EquipmentConfig } from './configs/equipment.ts';
-
 import styles from './HrNewcomersForm.module.scss';
+import { AccessesOptions } from 'src/components/Forms/configs/accesses.ts';
 
-const FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
+const FORMAT: string = 'YYYY-MM-DDTHH:mm:ssZ';
 
 interface IAccess {
-  name: string;
-  type: string;
-  comment: string;
+  id: string;
+  name?: string;
+  type?: string;
+  comment?: string;
 }
 
 interface IEquipment {
@@ -48,8 +49,9 @@ interface IFormData {
   mobile: string;
   startDate: string;
   manager?: string;
+  recruiter?: string;
   equipment?: IEquipment[];
-  listOfAccesses?: IAccess[];
+  accesses?: IAccess[];
 }
 
 const InitialData: IFormData = {
@@ -60,68 +62,131 @@ const InitialData: IFormData = {
   mobile: '',
   startDate: dateTime().format(FORMAT),
   manager: '',
+  recruiter: '',
   equipment: undefined,
-  listOfAccesses: undefined,
+  accesses: undefined,
 };
 
 export const HrNewcomersForm = () => {
   const [formData, setFormData] = useState<IFormData>(InitialData);
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
+  const [accessesList, setAccessesList] = useState<string[]>([]);
 
   const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOP', 8);
 
-  const addEquipment = (): void => {
-    const equipmentId = 'EQUIP' + nanoid();
-    const newItem: IEquipment = { id: equipmentId };
-    const tempArray: IEquipment[] | undefined = formData.equipment || [];
-    tempArray.push(newItem);
+  const addItem = (target: 'equipment' | 'accesses'): void => {
+    if (target === 'equipment') {
+      const equipmentId = 'EQUIP' + nanoid();
+      const newItem: IEquipment = { id: equipmentId };
+      const tempArray: IEquipment[] | undefined = formData.equipment || [];
+      tempArray.push(newItem);
 
-    setEquipmentList((prev) => [...prev, equipmentId]);
+      setEquipmentList((prev) => [...prev, equipmentId]);
 
-    setFormData((prev: IFormData) => ({ ...prev, equipment: tempArray }));
+      setFormData((prev: IFormData) => ({ ...prev, equipment: tempArray }));
+    }
+
+    if (target === 'accesses') {
+      const accessesId = 'ACCESS' + nanoid();
+      const newItem: IAccess = { id: accessesId };
+      const tempArray: IAccess[] | undefined = formData.accesses || [];
+      tempArray.push(newItem);
+
+      setAccessesList((prev) => [...prev, accessesId]);
+
+      setFormData((prev: IFormData) => ({
+        ...prev,
+        accesses: tempArray,
+      }));
+    }
   };
 
-  const changeEquipment = (
+  const changeItem = (
     id: string,
     value: string | number,
     target: string,
+    list: 'equipment' | 'accesses',
   ): void => {
-    const oldArray: IEquipment[] = formData.equipment || [];
+    if (list === 'equipment') {
+      const oldArray: IEquipment[] = formData.equipment || [];
 
-    const changedConfig: IEquipment | undefined = oldArray.find(
-      (config) => config.id === id,
-    );
-
-    if (!changedConfig) return;
-
-    const index: number = oldArray.indexOf(changedConfig);
-
-    const newConfig: IEquipment = { ...changedConfig, [target]: value };
-    oldArray.splice(index, 1, newConfig);
-
-    setFormData((prev: IFormData) => ({ ...prev, equipment: oldArray }));
-  };
-
-  const deleteEquipment = (id: string) => {
-    const index = equipmentList.indexOf(id);
-    if (index > -1) {
-      const tempArray = equipmentList;
-      tempArray.splice(index, 1);
-      setEquipmentList(tempArray);
-
-      const oldEquipmentArray: IEquipment[] = formData.equipment || [];
-
-      const deletedConfig: IEquipment | undefined = oldEquipmentArray.find(
+      const changedConfig: IEquipment | undefined = oldArray.find(
         (config) => config.id === id,
       );
-      if (!deletedConfig) return;
 
-      const configIndex: number = oldEquipmentArray.indexOf(deletedConfig);
-      oldEquipmentArray.splice(configIndex, 1);
-      setFormData((prev: IFormData) => ({
-        ...prev,
-        equipment: oldEquipmentArray,
-      }));
+      if (!changedConfig) return;
+
+      const index: number = oldArray.indexOf(changedConfig);
+
+      const newConfig: IEquipment = { ...changedConfig, [target]: value };
+      oldArray.splice(index, 1, newConfig);
+
+      setFormData((prev: IFormData) => ({ ...prev, equipment: oldArray }));
+    }
+
+    if (list === 'accesses') {
+      const oldArray: IAccess[] = formData.accesses || [];
+
+      const changedConfig: IAccess | undefined = oldArray.find(
+        (config) => config.id === id,
+      );
+
+      if (!changedConfig) return;
+
+      const index: number = oldArray.indexOf(changedConfig);
+
+      const newConfig: IAccess = { ...changedConfig, [target]: value };
+      oldArray.splice(index, 1, newConfig);
+
+      setFormData((prev: IFormData) => ({ ...prev, accesses: oldArray }));
+    }
+  };
+
+  const deleteItem = (id: string, list: 'equipment' | 'accesses') => {
+    if (list === 'equipment') {
+      const index: number = equipmentList.indexOf(id);
+      if (index > -1) {
+        const tempArray = equipmentList;
+        tempArray.splice(index, 1);
+        setEquipmentList(tempArray);
+
+        const oldEquipmentArray: IEquipment[] = formData.equipment || [];
+
+        const deletedConfig: IEquipment | undefined = oldEquipmentArray.find(
+          (config) => config.id === id,
+        );
+        if (!deletedConfig) return;
+
+        const configIndex: number = oldEquipmentArray.indexOf(deletedConfig);
+        oldEquipmentArray.splice(configIndex, 1);
+        setFormData((prev: IFormData) => ({
+          ...prev,
+          equipment: oldEquipmentArray,
+        }));
+      }
+    }
+
+    if (list === 'accesses') {
+      const index: number = accessesList.indexOf(id);
+      if (index > -1) {
+        const tempArray = accessesList;
+        tempArray.splice(index, 1);
+        setAccessesList(tempArray);
+
+        const oldAccessesArray: IAccess[] = formData.accesses || [];
+
+        const deletedConfig: IAccess | undefined = oldAccessesArray.find(
+          (config) => config.id === id,
+        );
+        if (!deletedConfig) return;
+
+        const configIndex: number = oldAccessesArray.indexOf(deletedConfig);
+        oldAccessesArray.splice(configIndex, 1);
+        setFormData((prev: IFormData) => ({
+          ...prev,
+          accesses: oldAccessesArray,
+        }));
+      }
     }
   };
 
@@ -130,7 +195,7 @@ export const HrNewcomersForm = () => {
   }, [formData]);
 
   return (
-    <Card theme="warning" className={styles.card}>
+    <Card view="raised" type="container" className={styles.card}>
       <div className={styles.wrapper}>
         <div className={styles.group}>
           <TextInput
@@ -204,6 +269,9 @@ export const HrNewcomersForm = () => {
         <div className={styles.group}>
           <DatePicker
             id="startDate"
+            format="DD MMMM YYYY"
+            className={styles.datePicker}
+            label="First date:"
             onUpdate={(value: DateTime | null) => {
               if (value === null) {
                 setFormData((prevState: IFormData) => ({
@@ -233,17 +301,44 @@ export const HrNewcomersForm = () => {
               }))
             }
           />
+          <TextInput
+            placeholder="Begovaya Olesya Maksimovna"
+            label="Recruiter: "
+            id="recruiter"
+            hasClear={true}
+            onUpdate={(value: string) =>
+              setFormData((prevState: IFormData) => ({
+                ...prevState,
+                recruiter: value,
+              }))
+            }
+          />
         </div>
       </div>
+
       <div className={styles.group}>
-        <Card theme="info" className={styles.cardGroup}>
+        <Card view="raised" type="container" className={styles.cardGroup}>
           <div className={styles.equipmentHeader}>
             <h2>
               <Icon data={Display} size={20} /> Equipment:
             </h2>
-            <Button view="outlined-success" size="m" onClick={addEquipment}>
+            <Button
+              view="outlined-success"
+              size="m"
+              onClick={() => addItem('equipment')}
+            >
               <Icon data={CirclePlus} /> Add new item
             </Button>
+          </div>
+          <div className={styles.subheader}>
+            <Text ellipsis={false} variant="body-2">
+              If a new employee requires equipment, select the required
+              configuration by clicking on the "Add" button. If the equipment is
+              not required for an employee’s profile, do not forget to indicate
+              a detailed business justification and other useful information in
+              the “Comment” field. Without this information, the period for
+              issuing equipment will be extended.
+            </Text>
           </div>
           <div>
             {equipmentList.map((item): ReactNode => {
@@ -254,7 +349,7 @@ export const HrNewcomersForm = () => {
                     label="Type: "
                     className={styles.select}
                     onUpdate={(value) => {
-                      changeEquipment(item, value[0], 'name');
+                      changeItem(item, value[0], 'name', 'equipment');
                     }}
                   >
                     {
@@ -277,21 +372,23 @@ export const HrNewcomersForm = () => {
                     label="Count:"
                     id="equipmentCount"
                     hasClear={true}
+                    type="number"
                     className={styles.countText}
                     onUpdate={(value) => {
-                      changeEquipment(item, value, 'count');
+                      changeItem(item, +value, 'count', 'equipment');
                     }}
                   />
                   <TextArea
                     className={styles.textArea}
                     placeholder="Please type business justification or another helpful information"
                     size="m"
+                    hasClear={true}
                     onUpdate={(value) => {
-                      changeEquipment(item, value, 'comment');
+                      changeItem(item, value, 'comment', 'equipment');
                     }}
                   />
                   <Button
-                    onClick={() => deleteEquipment(item)}
+                    onClick={() => deleteItem(item, 'equipment')}
                     view="outlined-danger"
                   >
                     <Icon data={CircleMinus} /> Delete
@@ -302,7 +399,105 @@ export const HrNewcomersForm = () => {
           </div>
         </Card>
       </div>
-      {/*<DynamicField name="test" spec={EquipmentConfig} config={dynamicConfig} />*/}
+
+      <div className={styles.group}>
+        <Card view="raised" type="container" className={styles.cardGroup}>
+          <div className={styles.accessHeader}>
+            <h2>
+              <Icon data={Key} size={20} /> Accesses:
+            </h2>
+            <Button
+              view="outlined-success"
+              size="m"
+              onClick={() => addItem('accesses')}
+            >
+              <Icon data={CirclePlus} /> Add new item
+            </Button>
+          </div>
+          <div className={styles.subheader}>
+            <Text ellipsis={false} variant="body-2">
+              If a new employee requires access to information systems, add them
+              by clicking on the "Add" button. For each system, the required
+              level of rights must be specified, as well as a detailed business
+              case.{' '}
+              <p>
+                {' '}
+                <b>Please note the following:</b>
+              </p>
+              <ul>
+                <li>
+                  access “By analogy with another employee” is not granted!
+                </li>
+                <li>
+                  the list contains information systems that can be accessed on
+                  the first working day. For the rest, the employee requests
+                  access independently in the first working days;
+                </li>
+                <li>
+                  when selecting “Other”, the issuance of access rights on the
+                  first working day is not guaranteed.
+                </li>
+              </ul>
+            </Text>
+          </div>
+          <div>
+            {accessesList.map((item): ReactNode => {
+              return (
+                <div key={item} className={styles.accessGroup}>
+                  <Select
+                    id={item}
+                    label="System: "
+                    className={styles.select}
+                    onUpdate={(value) => {
+                      changeItem(item, value[0], 'name', 'accesses');
+                    }}
+                  >
+                    {
+                      /* eslint-disable */
+                      // prettier-ignore
+                      (Object.keys(AccessesOptions) as (keyof typeof AccessesOptions)[])
+                        .map((key) => {
+                          return (
+                            <Select.Option
+                              key={key}
+                              value={key}
+                              content={AccessesOptions[key]}
+                            />
+                          );
+                        })
+                    }
+                  </Select>
+                  <TextInput
+                    placeholder="Licence"
+                    label="Type of access:"
+                    id="accessType"
+                    hasClear={true}
+                    className={styles.listText}
+                    onUpdate={(value) => {
+                      changeItem(item, value, 'type', 'accesses');
+                    }}
+                  />
+                  <TextArea
+                    className={styles.textArea}
+                    placeholder="Please type business justification or another helpful information"
+                    size="m"
+                    hasClear={true}
+                    onUpdate={(value) => {
+                      changeItem(item, value, 'comment', 'accesses');
+                    }}
+                  />
+                  <Button
+                    onClick={() => deleteItem(item, 'accesses')}
+                    view="outlined-danger"
+                  >
+                    <Icon data={CircleMinus} /> Delete
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+      </div>
     </Card>
   );
 };

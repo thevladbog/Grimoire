@@ -97,5 +97,20 @@ export const EquipmentConfig: ArraySpec = {
 export enum EquipmentOptions {
   standardLaptopWindows = 'Standard Laptop (Windows)',
   standardLaptopMacOS = 'Standard Laptop (MacOS)',
-  standardLaptopLinux = 'Standard Laptop (Linux/Empty)'
+  standardLaptopLinux = 'Standard Laptop (Linux/Clear)',
+  highPerfLaptopWindows = 'High-Performance Laptop (Windows)',
+  highPerfLaptopMacOS = 'High-Performance Laptop (MacOS)',
+  highPerfLaptopLinux = 'High-Performance Laptop (Linux/Clear)',
+  standardDesktopWindows = 'Standard Desktop (Windows)',
+  standardDesktopMacOS = 'Standard Desktop (MacOS)',
+  standardDesktopLinux = 'Standard Desktop (Linux/Empty)',
+  highPerfDesktopWindows = 'High-Performance Desktop (Windows)',
+  highPerfDesktopMacOS = 'High-Performance Desktop (MacOS)',
+  highPerfDesktopLinux = 'High-Performance Desktop (Linux/Empty)',
+  mobilePhone = 'Mobile Phone (iOS)',
+  mouse = 'Computer mouse',
+  keyboard = 'Keyboard',
+  headphones = 'Headphones',
+  laptopCase = 'Laptop Case',
+  otherEquipment = 'Other (describe in the "Comment" field)'
 }

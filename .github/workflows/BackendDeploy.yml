@@ -28,22 +28,11 @@ jobs:
         cache: 'npm'
         cache-dependency-path: backend/yarn.lock
 
-    - name: Where
-      run: pwd
-
-    - name: Open directory
-      run: cd backend
-
-    - name: Where
-      run: pwd
-
     - name: Install dependencies
-      run: yarn 
-      
-    - name: Building
-      run: yarn build
-      
-    - name: Move directory
-      run: mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
-
-    - run: cd /var/www/bot_cerberus/data/www/sins.v-b.tech
+      working-directory: ./backend
+      run: |
+        yarn
+        yarn build
+        mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
+        cd /var/www/bot_cerberus/data/www/sins.v-b.tech
+        pwd

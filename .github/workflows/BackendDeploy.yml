@@ -32,8 +32,8 @@ jobs:
       working-directory: backend
       run: |
         pwd
-        yarn
-        yarn build
+        npm i
+        npm run build
         mv dist /var/www/bot_cerberus/data/www/sins.v-b.tech
         cd /var/www/bot_cerberus/data/www/sins.v-b.tech
         pwd

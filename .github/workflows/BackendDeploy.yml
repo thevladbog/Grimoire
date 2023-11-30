@@ -34,7 +34,7 @@ jobs:
       working-directory: backend
       run: npm run build
 
-    - name: Stop pm2
+    - name: Restart pm2
       working-directory: backend
       run: npm run restart:server
 

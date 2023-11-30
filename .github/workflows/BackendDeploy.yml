@@ -36,6 +36,9 @@ jobs:
       working-directory: backend
       run: npm run build
 
+    - name: Delete old project
+      run: rm -r /var/www/bot_cerberus/data/www/sins.v-b.tech/dist
+
     - name: Move built project
       working-directory: backend
       run: mv -f dist /var/www/bot_cerberus/data/www/sins.v-b.tech

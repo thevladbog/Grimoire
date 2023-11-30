@@ -190,6 +190,10 @@ export const HrNewcomersForm = () => {
     }
   };
 
+  const clearForm = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     console.log(formData);
   }, [formData]);
@@ -497,6 +501,17 @@ export const HrNewcomersForm = () => {
             })}
           </div>
         </Card>
+      </div>
+
+      <div className={styles.group}>
+        <div className={styles.submitButtons}>
+          <Button view="action" size="l" className={styles.submitButton}>
+            Create new employee
+          </Button>
+          <Button view="outlined-danger" size="l" onClick={clearForm}>
+            Clear all (reload page)
+          </Button>
+        </div>
       </div>
     </Card>
   );

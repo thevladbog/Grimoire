@@ -115,3 +115,18 @@
   }
 }
 
+.submitButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  gap: 15px;
+
+  margin-top: 15px;
+
+  .submitButton {
+    color: white;
+    font-weight: bold;
+    font-size: large;
+  }
+}
+

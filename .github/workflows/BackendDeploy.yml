@@ -36,16 +36,20 @@ jobs:
       working-directory: backend
       run: npm run build
 
+    - name: Stop pm2
+      working-directory: backend
+      run: npm run stop:server
+
     - name: Delete old project
-      run: rm -r /var/www/bot_cerberus/data/www/sins.v-b.tech/dist
+      run: rm -r /home/bot_cerberus/data/www/sins.v-b.tech/dist
 
     - name: Move built project
       working-directory: backend
-      run: mv -f dist /var/www/bot_cerberus/data/www/sins.v-b.tech
+      run: mv -f dist /home/bot_cerberus/data/www/sins.v-b.tech
 
     - name: Restart pm2
       working-directory: backend
-      run: npm run restart
+      run: npm run start:server
 
     - name: Delete project
       run: rm -r *

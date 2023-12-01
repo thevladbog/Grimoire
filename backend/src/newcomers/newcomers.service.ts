@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { CreateNewcomersDto } from 'src/newcomers/dto/CreateNewcomers.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FoundNewcomerDto } from 'src/newcomers/dto/FoundNewcomer.dto';
 
 @Injectable()
 export class NewcomersService {
@@ -72,5 +73,19 @@ export class NewcomersService {
     console.log(relatedEmployee);
     console.log(dto);
     return newcomer.id;
+  }
+
+  async getOneNewcomer(id: string): Promise<FoundNewcomerDto> {
+    return this.prismaService.newcomers.findUnique({
+      where: {
+        id: +id,
+      },
+      include: {
+        RelatedEmployees: true,
+        Equipments: true,
+        Accesses: true,
+        RelatedRequests: true,
+      },
+    });
   }
 }

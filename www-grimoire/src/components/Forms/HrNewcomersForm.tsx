@@ -1,27 +1,27 @@
 import { ReactNode, useState } from 'react';
 import {
-  Icon,
-  TextInput,
-  Card,
   Button,
+  Card,
+  Icon,
   Select,
-  TextArea,
   Text,
+  TextArea,
+  TextInput,
+  useToaster,
 } from '@gravity-ui/uikit';
 import { DatePicker } from '@gravity-ui/date-components';
 import { dateTime, DateTime } from '@gravity-ui/date-utils';
-import { useToaster } from '@gravity-ui/uikit';
 import { customAlphabet } from 'nanoid';
 import { EquipmentOptions } from 'src/components/Forms/configs/equipment.ts';
 
 import {
   At,
-  Smartphone,
-  CirclePlus,
   CircleMinus,
+  CirclePlus,
   Display,
   Key,
   PersonWorker,
+  Smartphone,
 } from '@gravity-ui/icons';
 
 import styles from './HrNewcomersForm.module.scss';
@@ -197,6 +197,14 @@ export const HrNewcomersForm = () => {
     }
   };
 
+  const dateToISOLikeButLocal = (date: Date): string => {
+    const offsetMs: number = date.getTimezoneOffset() * 60 * 1000;
+    const msLocal: number = date.getTime() - offsetMs;
+    const dateLocal: Date = new Date(msLocal);
+    const iso: string = dateLocal.toISOString();
+    return iso.slice(0, 19) + '.000Z';
+  };
+
   const clearForm = () => {
     window.location.reload();
   };
@@ -328,12 +336,13 @@ export const HrNewcomersForm = () => {
                   startDate: 'undefined',
                 }));
               } else {
-                const startDate: string = dateTime({ input: value }).format(
-                  FORMAT,
-                );
+                const startDate: string = dateTime({
+                  input: value,
+                }).format(FORMAT);
+                const localDate = dateToISOLikeButLocal(new Date(startDate));
                 setFormData((prevState: IFormData) => ({
                   ...prevState,
-                  startDate,
+                  startDate: localDate,
                 }));
               }
             }}

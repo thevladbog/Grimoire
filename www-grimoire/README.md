@@ -3,6 +3,7 @@
 ***
 # [Frontend] Grimoire | HR System
 [![Frontend - Tests on PR](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendTests.yml)
+[![Frontend - Deploy on VPS](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendVPSDeploy.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/FrontendVPSDeploy.yml)
 [![Vercel](https://vercelbadge.vercel.app/api/thevladbog/grimoire)](https://grimoire.v-b.tech/)
 [![Checkly](https://api.checklyhq.com/v1/badges/checks/74de1542-cd40-4622-ae21-2e5a5e821b90)](https://grimoire.checkly-dashboards.com/)
 [![CodeQL](https://github.com/thevladbog/Grimoire/actions/workflows/codeql.yml/badge.svg)](https://github.com/thevladbog/Grimoire/actions/workflows/codeql.yml)

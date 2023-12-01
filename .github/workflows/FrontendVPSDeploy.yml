@@ -21,13 +21,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Wait for tests to succeed
-      uses: lewagon/wait-on-check-action@v1.3.1
-      with:
-        ref: ${{ github.ref }}
-        check-name: 'Frontend - run tests'
-        repo-token: ${{ secrets.PERSONAL_TOKEN_GIT }}
-        wait-interval: 50
 
     - name: Settings variables
       working-directory: www-grimoire

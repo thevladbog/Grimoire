@@ -64,7 +64,45 @@
       }
     }
   }
-  .additionalData {}
+  .additionalData {
+    margin-top: 25px;
+
+    .tabs {
+      display: flex;
+      justify-content: end;
+      margin: 5px 15px 15px 0;
+    }
+
+    .statusesTable {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 25px;
+
+    }
+
+    .detailedData {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: start;
+      padding: 15px;
+      gap: 25px;
+
+      .detailedBlock {
+        max-width: 35%;
+
+        h3 {
+          margin: 0 0 5px;
+          font-size: 20px;
+        }
+        p {
+          font-size: 16px;
+          margin: 10px 0;
+        }
+      }
+    }
+  }
 
   @media(max-width: 1150px) {
     .mainData {

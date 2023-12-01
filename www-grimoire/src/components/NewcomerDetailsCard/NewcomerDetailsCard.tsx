@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from 'react-router';
-import { Card, Button, Icon, Label } from '@gravity-ui/uikit';
+import { Card, Button, Icon, Tabs, Label, Table, TableColumnConfig } from '@gravity-ui/uikit';
 
 import { ChevronsDown, Book } from '@gravity-ui/icons';
 import styles from './NewcomerDetailsCard.module.scss';
+import { dateTimeParse } from "@gravity-ui/date-utils";
+
 
 enum Statuses {
   toCreate = 'outlined-success',
   created = 'outlined-warning',
   rejected = 'outlined-danger'
+}
+
+enum TabsId {
+  first = 'first',
+  second = 'second',
+  third = 'third',
+  forth = 'forth'
 }
 interface IButtonStatuses {
   finalForm: Statuses,
@@ -21,6 +30,13 @@ interface IButtonStatuses {
   equipmentDisabled: boolean,
   done: Statuses
   doneDisabled: boolean
+}
+
+interface IDataOfRequests {
+  id: string,
+  title: string,
+  status: string,
+  lastModified: Date
 }
 
 const InitialButtonStatuses: IButtonStatuses = {
@@ -36,12 +52,54 @@ const InitialButtonStatuses: IButtonStatuses = {
   doneDisabled: true
 }
 
+const MockRequests: IDataOfRequests[] = [
+  {
+    id: 'EQUIPMENT-123',
+    title: 'Подготовка оборудования',
+    status: 'В работе',
+    lastModified: new Date()
+  },
+  {
+    id: 'ACCESSES-25',
+    title: 'Доступ в Jira Atlassian',
+    status: 'Готово',
+    lastModified: new Date()
+  }
+]
+
 export const NewcomerDetailsCard = () => {
   const [buttonStatuses, setButtonStatuses] = useState<IButtonStatuses>(InitialButtonStatuses)
+  const [activeTab, setActiveTab] = useState<TabsId>(TabsId.first)
   const { id } = useParams();
+  
+  const columns: TableColumnConfig<IDataOfRequests>[] = [
+    {
+      id: 'id',
+      name: 'Request #',
+    },
+    {
+      id: 'title',
+      name: 'Title',
+    },
+    {
+      id: 'status',
+      name: 'Status',
+      template: (item) => <Label>{item.status}</Label>,
+    },
+    {
+      id: 'lastModified',
+      name: 'Last Modified',
+      template: (item) => dateTimeParse(item.lastModified)?.format('HH:mm DD.MM.YYYY'),
+    },
+  ];
+  
+  useEffect(() => {
+    setButtonStatuses(InitialButtonStatuses)
+  }, []);
 
   return (
     <>
+      <h1>Newcomer's details</h1>
       <div className={styles.wrapper}>
         <div className={styles.label}>
           <Label theme="info" type="copy" copyText={`NewcomerID=${id}`} icon={<Icon data={Book} size={16} />} >Page #{id}</Label>
@@ -114,7 +172,58 @@ export const NewcomerDetailsCard = () => {
 
         <div className={styles.additionalData}>
           <Card view="raised" type="container">
-            <div></div>
+            <div className={styles.tabs}>
+              <Tabs
+                size="xl"
+                activeTab={activeTab}
+                onSelectTab={(tabId: TabsId) => {setActiveTab(tabId)}}
+                items={[
+                 {id: 'first', title: 'Details'},
+                 {id: 'second', title: 'Corporate data'},
+                 {id: 'third', title: 'Requests'},
+                 {id: 'fourth', title: 'History', disabled: true},
+                ]}
+              />
+            </div>
+            {activeTab === TabsId.first &&
+              <div className={styles.detailedData}>
+                <div className={styles.detailedBlock}>
+                  <h3>Паспорт</h3>
+                  <p>Серия: <Label theme="clear" type="copy" copyText={`0304`} >03 04</Label></p>
+                  <p>Номер: </p>
+                  <p>Кем выдан: </p>
+                  <p>Дата выдачи: </p>
+                </div>
+                <div className={styles.detailedBlock}>
+                  <h3>СНИЛС</h3>
+                  <p>Номер: 158-369-365 03</p>
+                </div>
+                <div className={styles.detailedBlock}>
+                  <h3>ИНН</h3>
+                  <p>Номер: </p>
+                </div>
+              </div>
+            }
+            
+            {activeTab === TabsId.second &&
+              <div className={styles.detailedData}>
+                <div className={styles.detailedBlock}>
+                  <h3>Корпоративные данные</h3>
+                  <p>Логин: </p>
+                  <p>Домен: </p>
+                  <p>Электронный адрес: </p>
+                </div>
+              </div>
+            }
+            
+            {activeTab === TabsId.third &&
+              <div className={styles.statusesTable}>
+                <Table
+                  columns={columns}
+                  data={MockRequests}
+                />
+              </div>
+            }
           </Card>
         </div>
       </div>

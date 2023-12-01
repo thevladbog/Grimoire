@@ -11,8 +11,7 @@ on:
 
 env:
   POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-  POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
-  VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+  POSTGRES_PRISMA_SHADOW_URL: ${{ secrets.POSTGRES_PRISMA_SHADOW_URL }}
 
 jobs:
   deployment:
@@ -32,8 +31,7 @@ jobs:
       run: |
         touch .env
         echo POSTGRES_PRISMA_URL=$POSTGRES_PRISMA_URL >> .env
-        echo POSTGRES_URL_NON_POOLING=$POSTGRES_URL_NON_POOLING >> .env
-        echo VITE_BACKEND_URL=$VITE_BACKEND_URL >> .env
+        echo POSTGRES_PRISMA_SHADOW_URL=$POSTGRES_PRISMA_SHADOW_URL >> .env
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4

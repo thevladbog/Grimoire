@@ -106,6 +106,20 @@ export const SendSmsPageConfig: IPageConfig = {
   ],
 };
 
+export const NewcomerDetailsPageConfig: IPageConfig = {
+  id: 'newcomerDetails',
+  link: '/newcomer/:id',
+  title: "Newcomer's Details",
+  permission: [
+    USER_ROLES.ADMIN,
+    USER_ROLES.STAFF_ADMIN,
+    USER_ROLES.RECRUITER,
+    USER_ROLES.RECRUITER_MANAGER,
+    USER_ROLES.SERVICE_DESK,
+    USER_ROLES.SERVICE_DESK_ELEVATED,
+  ],
+};
+
 export const allPagesConfigs: IPageConfig[] = [
   MainPageConfig,
   SdNewcomersPageConfig,
@@ -117,4 +131,5 @@ export const allPagesConfigs: IPageConfig[] = [
   HrNewcomersPageConfig,
   HrNewNewcomersPageConfig,
   SendSmsPageConfig,
+  NewcomerDetailsPageConfig,
 ];

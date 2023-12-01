@@ -1,0 +1,142 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  width: 80%;
+
+  .label {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-bottom: 5px;
+  }
+
+  .mainData {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 15px;
+
+    .leftContent {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      max-width: 70%;
+
+      & > * {
+        min-width: 35%;
+      }
+
+      .description {
+        flex: 1;
+        font-size: 18px;
+        margin: 0 0 15px 0;
+        word-wrap: normal;
+      }
+
+      .mainNewcomerData {
+        flex: 4;
+        font-size: 20px;
+        margin: 0 0 15px 0;
+        font-weight: bold;
+        word-wrap: normal;
+      }
+    }
+
+    .rightContent {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      max-width: 40%;
+
+      .statusButton {
+
+        button {
+          font-size: 18px;
+        }
+      }
+
+      .statusIcon {
+        display: flex;
+        justify-content: center;
+        margin: 5px 0;
+      }
+    }
+  }
+  .additionalData {
+    margin-top: 25px;
+
+    .tabs {
+      display: flex;
+      justify-content: end;
+      margin: 5px 15px 15px 0;
+    }
+
+    .statusesTable {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 25px;
+
+    }
+
+    .detailedData {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: start;
+      padding: 15px;
+      gap: 25px;
+
+      .detailedBlock {
+        max-width: 35%;
+
+        h3 {
+          margin: 0 0 5px;
+          font-size: 20px;
+        }
+        p {
+          font-size: 16px;
+          margin: 10px 0;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 1150px) {
+    .mainData {
+    .leftContent {
+      display: flex;
+      flex-direction: column;
+
+      .description {
+        font-size: 14px;
+        margin: 0 0 5px 0;
+      }
+
+      .mainNewcomerData {
+        font-size: 20px;
+        margin: 0 0 15px 0;
+        font-weight: bold;
+      }
+    }
+
+    .rightContent {
+      display: flex;
+      justify-content: start;
+      flex-direction: column;
+      max-width: 50%;
+
+      .statusButton {
+
+        button {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  }
+}
+
+

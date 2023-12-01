@@ -15,6 +15,7 @@ model Newcomers {
   surname          String
   email            String
   mobile           String?
+  firstDay         DateTime           @map("first_day")
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   RelatedEmployees RelatedEmployees[]
@@ -29,7 +30,7 @@ model RelatedEmployees {
   id          Int       @id @default(autoincrement())
   type        String?
   name        String?
-  newcomersId Newcomers @relation(fields: [newcId], references: [id])
+  newcomersId Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
   newcId      Int       @map("newcomers_id")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -45,7 +46,7 @@ model Equipments {
   internalId    String    @map("internal_id")
   requestId     String?   @map("request_id")
   requestStatus String?   @map("request_status")
-  newcomersId   Newcomers @relation(fields: [newcId], references: [id])
+  newcomersId   Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
   newcId        Int       @map("newcomers_id")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -61,7 +62,7 @@ model Accesses {
   internalId    String    @map("internal_id")
   requestId     String?   @map("request_id")
   requestStatus String?   @map("request_status")
-  newcomersId   Newcomers @relation(fields: [newcId], references: [id])
+  newcomersId   Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
   newcId        Int       @map("newcomers_id")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -74,7 +75,7 @@ model RelatedRequests {
   type          String
   requestId     String?   @map("request_id")
   requestStatus String?   @map("request_status")
-  newcomersId   Newcomers @relation(fields: [newcId], references: [id])
+  newcomersId   Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
   newcId        Int       @map("newcomers_id")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

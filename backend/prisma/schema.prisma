@@ -15,6 +15,7 @@ model Newcomers {
   surname          String
   email            String
   mobile           String?
+  jobTitle         String             @map("job_title")
   firstDay         DateTime           @map("first_day")
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt

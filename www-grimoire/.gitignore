@@ -25,3 +25,6 @@ dist-ssr
 
 .vercel
 /coverage/
+
+*.env
+.env

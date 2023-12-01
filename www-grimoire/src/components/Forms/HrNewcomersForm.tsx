@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Icon,
   TextInput,
@@ -10,6 +10,7 @@ import {
 } from '@gravity-ui/uikit';
 import { DatePicker } from '@gravity-ui/date-components';
 import { dateTime, DateTime } from '@gravity-ui/date-utils';
+import { useToaster } from '@gravity-ui/uikit';
 import { customAlphabet } from 'nanoid';
 import { EquipmentOptions } from 'src/components/Forms/configs/equipment.ts';
 
@@ -20,10 +21,12 @@ import {
   CircleMinus,
   Display,
   Key,
+  PersonWorker,
 } from '@gravity-ui/icons';
 
 import styles from './HrNewcomersForm.module.scss';
 import { AccessesOptions } from 'src/components/Forms/configs/accesses.ts';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const FORMAT: string = 'YYYY-MM-DDTHH:mm:ssZ';
 
@@ -47,6 +50,7 @@ interface IFormData {
   middleName: string;
   email: string;
   mobile: string;
+  jobTitle: string;
   startDate: string;
   manager?: string;
   recruiter?: string;
@@ -60,6 +64,7 @@ const InitialData: IFormData = {
   middleName: '',
   email: '',
   mobile: '',
+  jobTitle: '',
   startDate: dateTime().format(FORMAT),
   manager: '',
   recruiter: '',
@@ -71,8 +76,10 @@ export const HrNewcomersForm = () => {
   const [formData, setFormData] = useState<IFormData>(InitialData);
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [accessesList, setAccessesList] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOP', 8);
+  const { add } = useToaster();
 
   const addItem = (target: 'equipment' | 'accesses'): void => {
     if (target === 'equipment') {
@@ -194,9 +201,34 @@ export const HrNewcomersForm = () => {
     window.location.reload();
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  const submitForm = async () => {
+    setLoading(true);
+    const url: string =
+      import.meta.env.VITE_BACKEND_URL || 'https://sins.v-b.tech';
+    await axios
+      .post(`${url}/newcomers`, formData)
+      .then((res: AxiosResponse) => {
+        console.log(res);
+        add({
+          title: `Newcomer has been created with ID #${res.data}`,
+          name: 'success',
+          autoHiding: 5000,
+          isClosable: true,
+          type: 'success',
+        });
+      })
+      .catch((error: AxiosError) => {
+        console.log(error);
+        add({
+          title: `Something went wrong. Error ${error?.message}`,
+          name: 'error',
+          autoHiding: 5000,
+          isClosable: true,
+          type: 'error',
+        });
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Card view="raised" type="container" className={styles.card}>
@@ -266,6 +298,19 @@ export const HrNewcomersForm = () => {
               setFormData((prevState: IFormData) => ({
                 ...prevState,
                 mobile: value,
+              }))
+            }
+          />
+          <TextInput
+            placeholder="Software engineer"
+            label="Job Title:"
+            id="jobTitle"
+            hasClear={true}
+            leftContent={<Icon data={PersonWorker} />}
+            onUpdate={(value: string) =>
+              setFormData((prevState: IFormData) => ({
+                ...prevState,
+                jobTitle: value,
               }))
             }
           />
@@ -503,7 +548,13 @@ export const HrNewcomersForm = () => {
 
       <div className={styles.group}>
         <div className={styles.submitButtons}>
-          <Button view="action" size="l" className={styles.submitButton}>
+          <Button
+            view="action"
+            size="l"
+            className={styles.submitButton}
+            onClick={submitForm}
+            loading={loading}
+          >
             Create new employee
           </Button>
           <Button view="outlined-danger" size="l" onClick={clearForm}>

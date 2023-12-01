@@ -49,7 +49,7 @@ export class EquipmentForNewcomersDto {
     example: 1,
     description: 'Number of equipments',
   })
-  readonly qty: number;
+  readonly count: number;
 
   @ApiProperty({
     example: 'Для работы в офисе',
@@ -95,6 +95,14 @@ export class CreateNewcomersDto {
   })
   @IsNotEmpty()
   readonly mobile: string;
+
+  @ApiProperty({
+    example: 'Разработчик',
+    description: 'Job Title',
+    required: true,
+  })
+  @IsNotEmpty()
+  readonly jobTitle: string;
 
   @ApiProperty({
     example: 'YYYY-MM-DDTHH:mm:ssZ',

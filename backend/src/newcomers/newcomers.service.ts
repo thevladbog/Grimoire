@@ -15,10 +15,11 @@ export class NewcomersService {
         email: dto.email,
         mobile: dto.mobile,
         firstDay: dto.startDate,
+        jobTitle: dto.jobTitle,
       },
     });
 
-    console.log(newcomer);
+    console.log(dto);
 
     const relatedEmployee =
       await this.prismaService.relatedEmployees.createMany({
@@ -36,7 +37,7 @@ export class NewcomersService {
         ],
       });
 
-    if (dto.accesses.length > 0) {
+    if (dto.accesses && dto.accesses.length > 0) {
       const data: Prisma.AccessesCreateManyInput[] = [];
       dto.accesses.map((item) =>
         data.push({
@@ -52,13 +53,13 @@ export class NewcomersService {
       });
     }
 
-    if (dto.equipment.length > 0) {
+    if (dto.equipment && dto.equipment.length > 0) {
       const data: Prisma.EquipmentsCreateManyInput[] = [];
       dto.equipment.map((item) =>
         data.push({
           type: item.name,
           comment: item.comment,
-          qty: item.qty,
+          qty: item.count,
           internalId: item.id,
           newcId: newcomer.id,
         }),

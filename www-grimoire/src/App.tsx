@@ -14,12 +14,14 @@ import {
   CheckInPageConfig,
   EquipmentPageConfig,
   HrNewcomersPageConfig,
+  HrNewNewcomersPageConfig,
   LabelsPageConfig,
   MainPageConfig,
   SdNewcomersPageConfig,
 } from 'src/configs/pages.config.ts';
 import './App.scss';
 import ErrorPage from 'src/pages/ErrorPage.tsx';
+import { HrNewNewcomers } from 'src/pages/HrNewNewcomers.tsx';
 
 function App() {
   return (
@@ -32,6 +34,10 @@ function App() {
           <Route path={LabelsPageConfig.link} element={<Labels />} />
           <Route path={CheckInPageConfig.link} element={<CheckIn />} />
           <Route path={HrNewcomersPageConfig.link} element={<HrNewcomers />} />
+          <Route
+            path={HrNewNewcomersPageConfig.link}
+            element={<HrNewNewcomers />}
+          />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>

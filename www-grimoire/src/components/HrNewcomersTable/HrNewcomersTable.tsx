@@ -8,7 +8,7 @@ import {
   TextInput,
 } from '@gravity-ui/uikit';
 import React, { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
+import { dateTimeParse } from '@gravity-ui/date-utils';
 
 import { mockData } from './__tests__/mock.ts';
 
@@ -128,7 +128,7 @@ export const HrNewcomersTable = () => {
       id: 'startDate',
       name: 'Start Date',
       width: '15%',
-      template: (item) => dayjs(item.startDate).format('DD.MM.YYYY'),
+      template: (item) => dateTimeParse(item.startDate)?.format('DD.MM.YYYY'),
     },
     {
       id: 'request',

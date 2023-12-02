@@ -12,6 +12,7 @@ import {
 import { DatePicker } from '@gravity-ui/date-components';
 import { dateTime, DateTime } from '@gravity-ui/date-utils';
 import { customAlphabet } from 'nanoid';
+import { useNavigate } from 'react-router-dom';
 import { EquipmentOptions } from 'src/components/Forms/configs/equipment.ts';
 
 import {
@@ -78,6 +79,8 @@ export const HrNewcomersForm = () => {
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [accessesList, setAccessesList] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOP', 8);
   const { add } = useToaster();
@@ -219,15 +222,16 @@ export const HrNewcomersForm = () => {
         ...formData,
         mobile: formatMobileNumber(formData.mobile),
       })
-      .then((res: AxiosResponse) => {
+      .then((res: AxiosResponse<number>) => {
         console.log(res);
         add({
-          title: `Newcomer has been created with ID #${res.data}`,
+          title: `Newcomer has been created with ID #${res.data}}`,
           name: 'success',
           autoHiding: 5000,
           isClosable: true,
           type: 'success',
         });
+        setTimeout(() => navigate(`/newcomer/${res.data}`), 2000);
       })
       .catch((error: AxiosError) => {
         console.log(error);
@@ -239,7 +243,9 @@ export const HrNewcomersForm = () => {
           type: 'error',
         });
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

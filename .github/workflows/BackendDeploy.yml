@@ -29,6 +29,7 @@ jobs:
         touch .env
         echo POSTGRES_PRISMA_URL=$POSTGRES_PRISMA_URL >> .env
         echo POSTGRES_PRISMA_SHADOW_URL=$POSTGRES_PRISMA_SHADOW_URL >> .env
+        echo NODE_ENV="development" >> .env
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4

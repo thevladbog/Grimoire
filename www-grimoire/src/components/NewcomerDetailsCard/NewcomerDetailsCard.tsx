@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router';
-import { Card, Button, Icon, Tabs, Label, Table, TableColumnConfig } from '@gravity-ui/uikit';
-
-import { ChevronsDown, Book } from '@gravity-ui/icons';
-import styles from './NewcomerDetailsCard.module.scss';
+import axios, { AxiosResponse } from "axios";
 import { dateTimeParse } from "@gravity-ui/date-utils";
-import { IDetailedData, IRelatedEmployee } from "src/components/NewcomerDetailsCard/types.ts";
-import axios from "axios";
+import { Card, Button, Icon, Tabs, Label, Table, TableColumnConfig, Link, Skeleton } from '@gravity-ui/uikit';
+import { formatPhoneNumberIntl } from 'react-phone-number-input'
+
+import { ChevronsDown, Book, At, Smartphone, Calendar, PersonWorker, MagicWand } from '@gravity-ui/icons';
+import { IAccess, IDetailedData, IEquipment, IRelatedEmployee } from "src/components/NewcomerDetailsCard/types.ts";
+
+import styles from './NewcomerDetailsCard.module.scss';
 
 
 enum Statuses {
@@ -19,7 +21,7 @@ enum TabsId {
   first = 'first',
   second = 'second',
   third = 'third',
-  forth = 'forth'
+  forth = 'forth',
 }
 interface IButtonStatuses {
   finalForm: Statuses,
@@ -40,6 +42,8 @@ interface IDataOfRequests {
   status: string,
   lastModified: Date
 }
+
+interface MainRequestsTable extends IEquipment, IAccess {}
 
 const InitialButtonStatuses: IButtonStatuses = {
   finalForm: Statuses.toCreate,
@@ -70,206 +74,279 @@ const MockRequests: IDataOfRequests[] = [
 ]
 
 export const NewcomerDetailsCard = () => {
-  const [buttonStatuses, setButtonStatuses] = useState<IButtonStatuses>(InitialButtonStatuses)
-  const [activeTab, setActiveTab] = useState<TabsId>(TabsId.first)
-  const [detailedData, setDetailedData] = useState<IDetailedData | undefined>(undefined)
+  const [ buttonStatuses, setButtonStatuses ] = useState<IButtonStatuses>(InitialButtonStatuses);
+  const [ activeTab, setActiveTab ] = useState<TabsId>(TabsId.first);
+  const [ detailedData, setDetailedData ] = useState<IDetailedData | undefined>(undefined);
+  const [ mainRequests, setMainRequests ] = useState<MainRequestsTable[]>([]);
+  const [ pageLoading, setPageLoading ] = useState<boolean>(false);
   const { id } = useParams();
   
-  const columns: TableColumnConfig<IDataOfRequests>[] = [
+  const additionalRequestsTable: TableColumnConfig<IDataOfRequests>[] = [
     {
       id: 'id',
-      name: 'Request #',
+      name: 'Запрос #',
     },
     {
       id: 'title',
-      name: 'Title',
+      name: 'Заголовок',
     },
     {
       id: 'status',
-      name: 'Status',
-      template: (item) => <Label>{item.status}</Label>,
+      name: 'Статус',
+      template: (item) => <Label>{ item.status }</Label>,
     },
     {
       id: 'lastModified',
-      name: 'Last Modified',
+      name: 'Последнее изм.',
+      align: 'right',
       template: (item) => dateTimeParse(item.lastModified)?.format('HH:mm DD.MM.YYYY'),
     },
   ];
   
+  const mainRequestsTable: TableColumnConfig<MainRequestsTable>[] = [
+    {
+      id: 'requestId',
+      name: 'Запрос #',
+      width: '15%',
+    },
+    {
+      id: 'title',
+      name: 'Заголовок',
+      width: '55%',
+      template: (item) => <p>[{ item.internalId }] { item.system || item.type }</p>,
+    },
+    {
+      id: 'status',
+      name: 'Статус',
+      template: (item) => <Label>{ item.requestStatus || 'Не создана' }</Label>,
+    },
+    {
+      id: 'lastModified',
+      name: 'Последнее изм.',
+      width: '23%',
+      align: 'right',
+      template: (item) => dateTimeParse(item.updatedAt)?.format('DD.MM.YYYY'),
+    },
+  ];
+  
   useEffect(() => {
+    setPageLoading(true);
+    
     const url: string =
       import.meta.env.VITE_BACKEND_URL || 'https://sins.v-b.tech';
-    const endpointUrl: URL = new URL(`/newcomers/${id}`, url)
-    axios.get(endpointUrl.href).then((res) => setDetailedData(res.data))
-    setButtonStatuses(InitialButtonStatuses)
-  }, [id]);
+    const endpointUrl: URL = new URL(`/newcomers/${ id }`, url);
+    axios.get<IDetailedData>(endpointUrl.href)
+         .then((res: AxiosResponse<IDetailedData>) => {
+             setDetailedData(res.data);
+             
+             const accessesRequests: MainRequestsTable[] | undefined = res.data.Accesses;
+             const equipmentsRequests: MainRequestsTable[] | undefined = res.data.Equipments;
+             const newMainRequestsData: MainRequestsTable[] = [];
+             
+             if (accessesRequests) {
+               newMainRequestsData.push(...accessesRequests);
+             }
+             if (equipmentsRequests) {
+               newMainRequestsData.push(...equipmentsRequests);
+             }
+             setMainRequests((newMainRequestsData));
+           },
+         ).finally(() => setPageLoading(false));
+    
+    setButtonStatuses(InitialButtonStatuses);
+  }, [ id ]);
   
-  let manager: IRelatedEmployee | undefined = undefined
+  let manager: IRelatedEmployee | undefined = undefined;
   if (detailedData && detailedData.RelatedEmployees) {
-    manager = (detailedData.RelatedEmployees).find((item: IRelatedEmployee) => item.type === 'manager')
+    manager = (detailedData.RelatedEmployees).find((item: IRelatedEmployee) => item.type === 'manager');
   }
   
-  let recruiter: IRelatedEmployee | undefined = undefined
+  let recruiter: IRelatedEmployee | undefined = undefined;
   if (detailedData && detailedData.RelatedEmployees) {
-    recruiter = (detailedData.RelatedEmployees).find((item: IRelatedEmployee) => item.type === 'recruiter')
+    recruiter = (detailedData.RelatedEmployees).find((item: IRelatedEmployee) => item.type === 'recruiter');
   }
-
+  
   return (
     <>
-    {detailedData &&
-      <>
-        <h1>{ detailedData?.surname } { detailedData?.name } { detailedData?.middleName }'s details</h1>
-        <div className={ styles.wrapper }>
-          <div className={ styles.label }>
-            <Label theme="info" type="copy" copyText={ `NewcomerID=${ id }` } icon={ <Icon data={ Book } size={ 16 }/> }>Page
-              #{ id }</Label>
-          </div>
-          <Card view="raised" type="container">
-            <div className={ styles.mainData }>
-              
-              <div className={ styles.leftContent }>
-                <div className={ styles.description }>Name:</div>
-                <div className={ styles.mainNewcomerData }>{ detailedData?.name }</div>
-                <div className={ styles.description }>Middle name:</div>
-                <div className={ styles.mainNewcomerData }>{ detailedData?.middleName }</div>
-                <div className={ styles.description }>Surname:</div>
-                <div className={ styles.mainNewcomerData }>{ detailedData?.surname }</div>
-                <div className={ styles.description }>Job title:</div>
-                <div className={ styles.mainNewcomerData }>{ detailedData?.jobTitle }</div>
-                <div className={ styles.description }>Start date:</div>
-                <div
-                  className={ styles.mainNewcomerData }>{ dateTimeParse(detailedData?.firstDay)?.format('DD.MM.YYYY') }</div>
-                <div className={ styles.description }>Email:</div>
-                <div className={ styles.mainNewcomerData }>{ detailedData?.email }</div>
-                {detailedData?.mobile && <>
-                  <div className={ styles.description }>Mobile:</div>
-                  <div className={ styles.mainNewcomerData }>{ detailedData?.mobile }</div>
-                </> }
-                <div className={ styles.description }>Manager:</div>
-                <div className={ styles.mainNewcomerData }>
-                  { manager && manager.name }
-                </div>
-                <div className={ styles.description }>Recruiter</div>
-                <div className={ styles.mainNewcomerData }>
-                  { recruiter && recruiter.name }
-                </div>
+      { !pageLoading && <>
+        { detailedData &&
+          <>
+            <h1>{ detailedData?.surname } { detailedData?.name } { detailedData?.middleName }'s details</h1>
+            <div className={ styles.wrapper }>
+              <div className={ styles.label }>
+                <Label theme='info' type='copy' copyText={ `NewcomerID=${ id }` }
+                       icon={ <Icon data={ Book } size={ 16 } /> }>Page
+                  #{ id }</Label>
               </div>
-              
-              <div className={ styles.rightContent }>
-                <div className={ styles.statusButton }>
-                  <Button width="max" pin="circle-circle" view={ buttonStatuses.finalForm }
-                          disabled={ buttonStatuses.finalFormDisabled }>
-                    Send finalist form
-                  </Button>
+              <Card view='raised' type='container'>
+                <div className={ styles.mainData }>
+
+                  <div className={ styles.leftContent }>
+                    <div className={ styles.description }>Имя:</div>
+                    <div className={ styles.mainNewcomerData }>{ detailedData?.name }</div>
+                    <div className={ styles.description }>Отчество:</div>
+                    <div className={ styles.mainNewcomerData }>{ detailedData?.middleName }</div>
+                    <div className={ styles.description }>Фамилия:</div>
+                    <div className={ styles.mainNewcomerData }>{ detailedData?.surname }</div>
+                    <div className={ styles.description }>Должность:</div>
+                    <div className={ styles.mainNewcomerData }>{ detailedData?.jobTitle }</div>
+                    <div className={ styles.description }><Icon data={ Calendar } /> Первый день:</div>
+                    <div
+                      className={ styles.mainNewcomerData }>{ dateTimeParse(detailedData?.firstDay)?.format('DD.MM.YYYY') }</div>
+                    <div className={ styles.description }><Icon data={ At } /> E-mail:</div>
+                    <div className={ styles.mainNewcomerData }><Link
+                      href={ `mailto:${ detailedData?.email }` }>{ detailedData?.email }</Link></div>
+                    { detailedData?.mobile && <>
+                      <div className={ styles.description }><Icon data={ Smartphone } /> Номер телефона:</div>
+                      <div className={ styles.mainNewcomerData }><Link
+                        href={ `tel:${ detailedData?.mobile }` }>{ formatPhoneNumberIntl(detailedData?.mobile) }</Link>
+                      </div>
+                    </> }
+                    <div className={ styles.description }><Icon data={ PersonWorker } /> Руководитель:</div>
+                    <div className={ styles.mainNewcomerData }>
+                      { manager && manager.name }
+                    </div>
+                    <div className={ styles.description }><Icon data={ MagicWand } /> Рекрутер</div>
+                    <div className={ styles.mainNewcomerData }>
+                      { recruiter && recruiter.name }
+                    </div>
+                  </div>
+
+                  <div className={ styles.rightContent }>
+                    <div className={ styles.statusButton }>
+                      <Button width='max' pin='circle-circle' view={ buttonStatuses.finalForm }
+                              disabled={ buttonStatuses.finalFormDisabled }>
+                        Send finalist form
+                      </Button>
+                    </div>
+                    <div className={ styles.statusIcon }>
+                      <Icon data={ ChevronsDown } size={ 20 } />
+                    </div>
+                    <div className={ styles.statusButton }>
+                      <Button width='max' pin='circle-circle' view={ buttonStatuses.secCheck }
+                              disabled={ buttonStatuses.secCheckDisabled }>
+                        Security check and Compliance check
+                      </Button>
+                    </div>
+                    <div className={ styles.statusIcon }>
+                      <Icon data={ ChevronsDown } size={ 20 } />
+                    </div>
+                    <div className={ styles.statusButton }>
+                      <Button width='max' pin='circle-circle' view={ buttonStatuses.account }
+                              disabled={ buttonStatuses.accountDisabled }>
+                        Create an Account and Coordinate equipment
+                      </Button>
+                    </div>
+                    <div className={ styles.statusIcon }>
+                      <Icon data={ ChevronsDown } size={ 20 } />
+                    </div>
+                    <div className={ styles.statusButton }>
+                      <Button width='max' pin='circle-circle' view={ buttonStatuses.equipment }
+                              disabled={ buttonStatuses.equipmentDisabled }>
+                        Prepare equipment and access
+                      </Button>
+                    </div>
+                    <div className={ styles.statusIcon }>
+                      <Icon data={ ChevronsDown } size={ 20 } />
+                    </div>
+                    <div className={ styles.statusButton }>
+                      <Button width='max' pin='circle-circle' view={ buttonStatuses.done }
+                              disabled={ buttonStatuses.doneDisabled }>
+                        The employee arrived, the equipment was issued
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <div className={ styles.statusIcon }>
-                  <Icon data={ ChevronsDown } size={ 20 }/>
-                </div>
-                <div className={ styles.statusButton }>
-                  <Button width="max" pin="circle-circle" view={ buttonStatuses.secCheck }
-                          disabled={ buttonStatuses.secCheckDisabled }>
-                    Security check and Compliance check
-                  </Button>
-                </div>
-                <div className={ styles.statusIcon }>
-                  <Icon data={ ChevronsDown } size={ 20 }/>
-                </div>
-                <div className={ styles.statusButton }>
-                  <Button width="max" pin="circle-circle" view={ buttonStatuses.account }
-                          disabled={ buttonStatuses.accountDisabled }>
-                    Create an Account and Coordinate equipment
-                  </Button>
-                </div>
-                <div className={ styles.statusIcon }>
-                  <Icon data={ ChevronsDown } size={ 20 }/>
-                </div>
-                <div className={ styles.statusButton }>
-                  <Button width="max" pin="circle-circle" view={ buttonStatuses.equipment }
-                          disabled={ buttonStatuses.equipmentDisabled }>
-                    Prepare equipment and access
-                  </Button>
-                </div>
-                <div className={ styles.statusIcon }>
-                  <Icon data={ ChevronsDown } size={ 20 }/>
-                </div>
-                <div className={ styles.statusButton }>
-                  <Button width="max" pin="circle-circle" view={ buttonStatuses.done }
-                          disabled={ buttonStatuses.doneDisabled }>
-                    The employee arrived, the equipment was issued
-                  </Button>
-                </div>
+              </Card>
+
+              <div className={ styles.additionalData }>
+                <Card view='raised' type='container'>
+                  <div className={ styles.tabs }>
+                    <Tabs
+                      size='xl'
+                      activeTab={ activeTab }
+                      onSelectTab={ (tabId: TabsId) => {
+                        setActiveTab(tabId);
+                      } }
+                      items={ [
+                        { id: 'first', title: 'Личная информация' },
+                        { id: 'second', title: 'Корпоративная информация' },
+                        { id: 'third', title: 'Запросы' },
+                        { id: 'fourth', title: 'История', disabled: true },
+                      ] }
+                    />
+                  </div>
+                  { activeTab === TabsId.first &&
+                    <div className={ styles.detailedData }>
+                      <div className={ styles.detailedBlock }>
+                        <h3>Паспорт</h3>
+                        <p>Серия: <Label theme='clear' type='copy' copyText={ `0304` }>03 04</Label></p>
+                        <p>Номер: </p>
+                        <p>Кем выдан: </p>
+                        <p>Дата выдачи: </p>
+                      </div>
+                      <div className={ styles.detailedBlock }>
+                        <h3>СНИЛС</h3>
+                        <p>Номер: 158-369-365 03</p>
+                      </div>
+                      <div className={ styles.detailedBlock }>
+                        <h3>ИНН</h3>
+                        <p>Номер: </p>
+                      </div>
+                    </div>
+                  }
+                  
+                  { activeTab === TabsId.second &&
+                    <div className={ styles.detailedData }>
+                      <div className={ styles.detailedBlock }>
+                        <h3>Корпоративные данные</h3>
+                        <p>Логин: </p>
+                        <p>Домен: </p>
+                        <p>Электронный адрес: </p>
+                      </div>
+                    </div>
+                  }
+                  
+                  { activeTab === TabsId.third &&
+                    <div className={ styles.statusesTable }>
+                      <div className={ styles.tablesBlock }>
+                        <div className={ styles.tablesBlockMain }>
+                          <h3>Основные запросы</h3>
+
+                          <Table
+                            columns={ mainRequestsTable }
+                            data={ mainRequests }
+                            wordWrap={ true }
+                          /></div>
+                      </div>
+
+                      <div className={ styles.tablesBlock }>
+                        <h3>Дополнительные запросы</h3>
+                        <Table
+                          columns={ additionalRequestsTable }
+                          data={ MockRequests }
+                        />
+                      </div>
+                    </div>
+                  }
+                </Card>
               </div>
             </div>
-          </Card>
-      
-          <div className={ styles.additionalData }>
-            <Card view="raised" type="container">
-              <div className={ styles.tabs }>
-                <Tabs
-                  size="xl"
-                  activeTab={ activeTab }
-                  onSelectTab={ (tabId: TabsId) => {
-                    setActiveTab(tabId)
-                  } }
-                  items={ [
-                    { id: 'first', title: 'Details' },
-                    { id: 'second', title: 'Corporate data' },
-                    { id: 'third', title: 'Requests' },
-                    { id: 'fourth', title: 'History', disabled: true },
-                  ] }
-                />
-              </div>
-              { activeTab === TabsId.first &&
-                <div className={ styles.detailedData }>
-                  <div className={ styles.detailedBlock }>
-                    <h3>Паспорт</h3>
-                    <p>Серия: <Label theme="clear" type="copy" copyText={ `0304` }>03 04</Label></p>
-                    <p>Номер: </p>
-                    <p>Кем выдан: </p>
-                    <p>Дата выдачи: </p>
-                  </div>
-                  <div className={ styles.detailedBlock }>
-                    <h3>СНИЛС</h3>
-                    <p>Номер: 158-369-365 03</p>
-                  </div>
-                  <div className={ styles.detailedBlock }>
-                    <h3>ИНН</h3>
-                    <p>Номер: </p>
-                  </div>
-                </div>
-              }
-              
-              { activeTab === TabsId.second &&
-                <div className={ styles.detailedData }>
-                  <div className={ styles.detailedBlock }>
-                    <h3>Корпоративные данные</h3>
-                    <p>Логин: </p>
-                    <p>Домен: </p>
-                    <p>Электронный адрес: </p>
-                  </div>
-                </div>
-              }
-              
-              { activeTab === TabsId.third &&
-                <div className={ styles.statusesTable }>
-                  <Table
-                    columns={ columns }
-                    data={ MockRequests }
-                  />
-                </div>
-              }
-            </Card>
-          </div>
-        </div>
-      </>
-    }
-      
-      {!detailedData &&
-        <>
-          <h1>Oops! Something went wrong</h1>
-          <h2>Shoo! Shoo!</h2>
-        </>
-      }
+          </>
+        }
+        
+        { !detailedData &&
+          <>
+            <h1>Oops! Something went wrong</h1>
+            <h2>Shoo! Shoo!</h2>
+          </>
+        }
+      </> }
+      {pageLoading && <div className={styles.skeleton}>
+        <Skeleton className={styles.skeletonName} />
+        <Skeleton className={styles.skeletonItem} />
+        <Skeleton className={styles.skeletonItem} />
+      </div>}
     </>
   );
 };

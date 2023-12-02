@@ -27,6 +27,7 @@ import {
 import styles from './HrNewcomersForm.module.scss';
 import { AccessesOptions } from 'src/components/Forms/configs/accesses.ts';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { formatMobileNumber } from 'src/utils/formayMobileNumber.ts';
 
 const FORMAT: string = 'YYYY-MM-DDTHH:mm:ssZ';
 
@@ -214,7 +215,10 @@ export const HrNewcomersForm = () => {
     const url: string =
       import.meta.env.VITE_BACKEND_URL || 'https://sins.v-b.tech';
     await axios
-      .post(`${url}/newcomers`, formData)
+      .post(`${url}/newcomers`, {
+        ...formData,
+        mobile: formatMobileNumber(formData.mobile),
+      })
       .then((res: AxiosResponse) => {
         console.log(res);
         add({

@@ -1,4 +1,4 @@
-{
+module.exports = {
   "useTabs": false,
   "printWidth": 80,
   "tabWidth": 2,
@@ -6,5 +6,6 @@
   "trailingComma": "all",
   "jsxBracketSameLine": false,
   "parser": "flow",
-  "semi": true
+  "semi": true,
+  "max-len": ["error", 140, 2]
 }

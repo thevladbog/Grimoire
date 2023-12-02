@@ -1,3 +1,22 @@
+.skeleton {
+  width: 80%;
+  display: flex;
+  gap: 25px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .skeletonName {
+    width: 80%;
+    height: 4em;
+  }
+
+  .skeletonItem {
+    height: 15em;
+    padding: 15px;
+  }
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -76,9 +95,26 @@
     .statusesTable {
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
       padding: 25px;
+      gap: 25px;
 
+      .tablesBlock:nth-child(1) {
+        min-width: 50%;
+      }
+
+      .tablesBlock:nth-child(2) {
+        width: 45%;
+      }
+
+      .tablesBlock {
+
+        h3 {
+          margin: 0 0 5px;
+          font-size: 20px;
+        }
+      }
     }
 
     .detailedData {
@@ -99,6 +135,23 @@
         p {
           font-size: 16px;
           margin: 10px 0;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 1400px) {
+    .additionalData {
+
+      .statusesTable {
+        flex-direction: column;
+
+        .tablesBlock:nth-child(1) {
+          width: 100%;
+        }
+
+        .tablesBlock:nth-child(2) {
+          width: 100%;
         }
       }
     }
@@ -136,6 +189,24 @@
       }
     }
   }
+
+    .additionalData {
+
+      .statusesTable {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .tablesBlock:nth-child(1) {
+          width: 95%;
+        }
+
+        .tablesBlock:nth-child(2) {
+          width: 95%;
+        }
+      }
+    }
   }
 }
 

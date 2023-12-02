@@ -26,8 +26,8 @@ export interface IRelatedEmployee {
 
 export interface IEquipment {
   id: number
-  type: string
-  qty: number
+  type?: string
+  qty?: number
   comment?: string
   internalId: string
   requestId?: string
@@ -39,8 +39,8 @@ export interface IEquipment {
 
 export interface IAccess {
   id: number
-  system: string
-  role: string
+  system?: string
+  role?: string
   comment?: string
   internalId: string
   requestId?: string

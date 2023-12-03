@@ -9,6 +9,9 @@ on:
 env:
   POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
   POSTGRES_PRISMA_SHADOW_URL: ${{ secrets.POSTGRES_PRISMA_SHADOW_URL }}
+  TRACKER_SERVICE_ACCOUNT: ${{ secrets.TRACKER_SERVICE_ACCOUNT }}
+  JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+  JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
 
 jobs:
   deployment:
@@ -29,6 +32,9 @@ jobs:
         touch .env
         echo POSTGRES_PRISMA_URL=$POSTGRES_PRISMA_URL >> .env
         echo POSTGRES_PRISMA_SHADOW_URL=$POSTGRES_PRISMA_SHADOW_URL >> .env
+        echo TRACKER_SERVICE_ACCOUNT=$TRACKER_SERVICE_ACCOUNT >> .env
+        echo JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET >> .env
+        echo JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET >> .env
         echo NODE_ENV="development" >> .env
 
     - name: Use Node.js ${{ matrix.node-version }}

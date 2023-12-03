@@ -6,6 +6,7 @@ import {
   Pagination,
   PaginationProps,
   TextInput,
+  Skeleton,
 } from '@gravity-ui/uikit';
 import React, { useEffect, useState } from 'react';
 import { dateTimeParse } from '@gravity-ui/date-utils';
@@ -47,6 +48,7 @@ export const HrNewcomersTable = () => {
     useState<boolean>(false);
   const [filterParams, setFilterParams] = useState<string>('');
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -133,6 +135,8 @@ export const HrNewcomersTable = () => {
 
   useEffect(() => {
     getRawData();
+    setPageLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -205,43 +209,53 @@ export const HrNewcomersTable = () => {
 
   return (
     <>
-      <div className={styles.search}>
-        <TextInput
-          placeholder="Search ..."
-          size="m"
-          onUpdate={(value) => {
-            setFilterParams(value);
-          }}
-          className={styles.search__input}
-          hasClear={true}
-        />
-      </div>
-      <div className={styles.table}>
-        <MyTable
-          data={paginatedData}
-          columns={columns}
-          onRowClick={(
-            item: IDataOfHrNewcomers,
-            index: number,
-            event: React.MouseEvent<HTMLTableRowElement>,
-          ) => {
-            console.log(item, index, event);
-            navigate(`/newcomer/${item.id}`);
-          }}
-          getRowActions={getHrRowActions}
-          wordWrap={true}
-        />
-      </div>
-      <Pagination
-        page={paginationConfig.page}
-        pageSize={paginationConfig.pageSize}
-        total={totalItems}
-        onUpdate={handleUpdate}
-        compact={false}
-        pageSizeOptions={[10, 15, 20, 30, 50]}
-        showInput={true}
-        className={styles.pagination}
-      />
+      {!pageLoading && (
+        <>
+          <div className={styles.search}>
+            <TextInput
+              placeholder="Search ..."
+              size="m"
+              onUpdate={(value) => {
+                setFilterParams(value);
+              }}
+              className={styles.search__input}
+              hasClear={true}
+            />
+          </div>
+          <div className={styles.table}>
+            <MyTable
+              data={paginatedData}
+              columns={columns}
+              onRowClick={(
+                item: IDataOfHrNewcomers,
+                index: number,
+                event: React.MouseEvent<HTMLTableRowElement>,
+              ) => {
+                console.log(item, index, event);
+                navigate(`/newcomer/${item.id}`);
+              }}
+              getRowActions={getHrRowActions}
+              wordWrap={true}
+            />
+          </div>
+          <Pagination
+            page={paginationConfig.page}
+            pageSize={paginationConfig.pageSize}
+            total={totalItems}
+            onUpdate={handleUpdate}
+            compact={false}
+            pageSizeOptions={[10, 15, 20, 30, 50]}
+            showInput={true}
+            className={styles.pagination}
+          />
+        </>
+      )}
+
+      {pageLoading && (
+        <>
+          <Skeleton className={styles.skeletonItem} />
+        </>
+      )}
     </>
   );
 };

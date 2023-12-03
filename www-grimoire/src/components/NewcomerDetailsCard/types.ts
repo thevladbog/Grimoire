@@ -1,3 +1,5 @@
+import { ICorporateInfo, IRelatedEmployee, IRelatedRequest } from 'src/types/types.ts';
+
 export interface IDetailedData {
   id: number
   name: string
@@ -13,15 +15,7 @@ export interface IDetailedData {
   Equipments?:IEquipment[]
   Accesses?: IAccess[]
   RelatedRequests?: IRelatedRequest[]
-}
-
-export interface IRelatedEmployee {
-  id: number
-  type?: string
-  name: string
-  newcId: number
-  createdAt: string
-  updatedAt: string
+  CorporateInfo?: ICorporateInfo
 }
 
 export interface IEquipment {
@@ -50,14 +44,3 @@ export interface IAccess {
   updatedAt: string
 }
 
-export interface IRelatedRequest {
-  id: number
-  type: string
-  requestId: string
-  requestStatus: string
-  title: string
-  lastModified: string
-  newcId: number
-  createdAt: string
-  updatedAt: string
-}

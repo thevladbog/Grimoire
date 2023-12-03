@@ -6,9 +6,10 @@ import { Card, Button, Icon, Tabs, Label, Table, TableColumnConfig, Link, Skelet
 import { formatPhoneNumberIntl } from 'react-phone-number-input'
 
 import { ChevronsDown, Book, At, Smartphone, Calendar, PersonWorker, MagicWand } from '@gravity-ui/icons';
-import { IAccess, IDetailedData, IEquipment, IRelatedEmployee } from "src/components/NewcomerDetailsCard/types.ts";
+import { IAccess, IDetailedData, IEquipment} from "src/components/NewcomerDetailsCard/types.ts";
 
 import styles from './NewcomerDetailsCard.module.scss';
+import { IRelatedEmployee } from 'src/types/types.ts';
 
 
 enum Statuses {

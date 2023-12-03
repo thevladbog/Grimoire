@@ -3,7 +3,7 @@ import { HrNewcomersTable } from 'src/components/HrNewcomersTable/HrNewcomersTab
 export const HrNewcomers = () => {
   return (
     <>
-      HR Newcomers
+      <h1>Newcomers</h1>
       <HrNewcomersTable />
     </>
   );

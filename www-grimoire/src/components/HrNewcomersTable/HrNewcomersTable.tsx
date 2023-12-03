@@ -107,7 +107,7 @@ export const HrNewcomersTable = () => {
       .get<IListOfNewcomers[]>(url)
       .then((res: AxiosResponse<IListOfNewcomers[]>) => {
         console.log(res);
-        const newData: IDataOfHrNewcomers[] = [...rawData];
+        const newData: IDataOfHrNewcomers[] = [];
         res.data.forEach((newcomer: IListOfNewcomers) => {
           const request: IRelatedRequest | undefined =
             newcomer.RelatedRequests?.find(
@@ -136,7 +136,6 @@ export const HrNewcomersTable = () => {
   useEffect(() => {
     getRawData();
     setPageLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

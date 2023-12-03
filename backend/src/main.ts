@@ -27,7 +27,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     // write swagger ui files
     get(
-      `https://sins.v-b.tech/swagger/swagger-ui-bundle.js`,
+      `http://sins.v-b.tech/swagger/swagger-ui-bundle.js`,
       function (response) {
         response.pipe(createWriteStream('swagger-static/swagger-ui-bundle.js'));
         console.log(

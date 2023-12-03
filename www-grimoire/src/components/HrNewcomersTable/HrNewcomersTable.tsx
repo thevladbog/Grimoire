@@ -107,7 +107,7 @@ export const HrNewcomersTable = () => {
       .get<IListOfNewcomers[]>(url)
       .then((res: AxiosResponse<IListOfNewcomers[]>) => {
         console.log(res);
-        const newData: IDataOfHrNewcomers[] = [...rawData];
+        const newData: IDataOfHrNewcomers[] = [];
         res.data.forEach((newcomer: IListOfNewcomers) => {
           const request: IRelatedRequest | undefined =
             newcomer.RelatedRequests?.find(

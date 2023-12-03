@@ -36,18 +36,15 @@ async function bootstrap() {
       },
     );
 
-    get(
-      `https://sins.v-b.tech/swagger/swagger-ui-init.js`,
-      function (response) {
-        response.pipe(createWriteStream('swagger-static/swagger-ui-init.js'));
-        console.log(
-          `Swagger UI init file written to: '/swagger-static/swagger-ui-init.js'`,
-        );
-      },
-    );
+    get(`http://sins.v-b.tech/swagger/swagger-ui-init.js`, function (response) {
+      response.pipe(createWriteStream('swagger-static/swagger-ui-init.js'));
+      console.log(
+        `Swagger UI init file written to: '/swagger-static/swagger-ui-init.js'`,
+      );
+    });
 
     get(
-      `https://sins.v-b.tech/swagger/swagger-ui-standalone-preset.js`,
+      `http://sins.v-b.tech/swagger/swagger-ui-standalone-preset.js`,
       function (response) {
         response.pipe(
           createWriteStream('swagger-static/swagger-ui-standalone-preset.js'),
@@ -58,7 +55,7 @@ async function bootstrap() {
       },
     );
 
-    get(`https://sins.v-b.tech/swagger/swagger-ui.css`, function (response) {
+    get(`http://sins.v-b.tech/swagger/swagger-ui.css`, function (response) {
       response.pipe(createWriteStream('swagger-static/swagger-ui.css'));
       console.log(
         `Swagger UI css file written to: '/swagger-static/swagger-ui.css'`,

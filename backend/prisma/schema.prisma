@@ -13,22 +13,24 @@ model Newcomers {
   name             String
   middleName       String?            @map("middle_name")
   surname          String
-  email            String
+  email            String             @unique
   mobile           String?
   jobTitle         String             @map("job_title")
   firstDay         DateTime           @map("first_day")
+  externalId       String             @default(uuid()) @map("external_id")
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   RelatedEmployees RelatedEmployees[]
   Equipments       Equipments[]
   Accesses         Accesses[]
   RelatedRequests  RelatedRequests[]
+  CorporateInfo    CorporateInfo?
 
   @@map("newcomers")
 }
 
 model RelatedEmployees {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   type        String?
   name        String?
   newcomersId Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
@@ -40,7 +42,7 @@ model RelatedEmployees {
 }
 
 model Equipments {
-  id            Int       @id @default(autoincrement())
+  id            String    @id @default(uuid())
   type          String
   qty           Int
   comment       String?
@@ -56,7 +58,7 @@ model Equipments {
 }
 
 model Accesses {
-  id            Int       @id @default(autoincrement())
+  id            String    @id @default(uuid())
   system        String
   role          String?
   comment       String?
@@ -72,16 +74,38 @@ model Accesses {
 }
 
 model RelatedRequests {
-  id            Int       @id @default(autoincrement())
-  type          String
-  requestId     String?   @map("request_id")
-  requestStatus String?   @map("request_status")
+  id            String       @id @default(uuid())
+  type          RequestsType
+  requestId     String?      @map("request_id")
+  requestStatus String?      @map("request_status")
   title         String
   lastModified  DateTime
-  newcomersId   Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
-  newcId        Int       @map("newcomers_id")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  newcomersId   Newcomers    @relation(fields: [newcId], references: [id], onDelete: Cascade)
+  newcId        Int          @map("newcomers_id")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   @@map("related_requests")
+}
+
+model CorporateInfo {
+  id             String    @id @default(uuid())
+  nameEn         String    @map("name_en")
+  corporateEmail String    @map("corporate_email")
+  domain         String
+  login          String
+  newcomersId    Newcomers @relation(fields: [newcId], references: [id], onDelete: Cascade)
+  newcId         Int       @unique @map("newcomers_id")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("corporate_info")
+}
+
+enum RequestsType {
+  equipment
+  accesses
+  sec_check
+  main
+  other
 }

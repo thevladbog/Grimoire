@@ -1,11 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { RequestsType } from '@prisma/client';
+import { IsEnum, IsString } from 'class-validator';
+import { Optional } from '@nestjs/common';
 
 export class FoundRelatedEmployeeDto {
   @ApiProperty({
-    example: 1,
+    example: '1206d249-edba-4f6d-b914-ef3ce309cd88',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
     example: 'manager',
@@ -33,11 +36,53 @@ export class FoundRelatedEmployeeDto {
   updatedAt: Date;
 }
 
+export class FoundCorporateInfoDto {
+  @ApiProperty({
+    example: 'e57f4b2a-e40c-489c-98b5-3125d6ebaadc',
+  })
+  id: string;
+
+  @ApiProperty({
+    example: 'Vladimir Borisov',
+  })
+  nameEn: string;
+
+  @ApiProperty({
+    example: 'Vladimir.Borisov@company.com',
+  })
+  corporateEmail: string;
+
+  @ApiProperty({
+    example: 'COMPANY',
+  })
+  domain: string;
+
+  @ApiProperty({
+    example: 'Borisov_Vl',
+  })
+  login: string;
+
+  @ApiProperty({
+    example: 6,
+  })
+  newcId: number;
+
+  @ApiProperty({
+    example: '2023-12-01T21:59:41.553Z',
+  })
+  createdAt: Date;
+
+  @ApiProperty({
+    example: '2023-12-01T21:59:41.553Z',
+  })
+  updatedAt: Date;
+}
+
 export class FoundEquipmentDto {
   @ApiProperty({
-    example: 1,
+    example: '2c77f7c9-0629-4a44-87cb-9312ee92f214',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
     example: 'Standart Laptop (Windows)',
@@ -87,9 +132,9 @@ export class FoundEquipmentDto {
 
 export class FoundAccessDto {
   @ApiProperty({
-    example: 1,
+    example: 'f3b8a207-c284-4d6f-9d37-485fc4bafd87',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
     example: 'Jira Atlassian',
@@ -139,14 +184,20 @@ export class FoundAccessDto {
 
 export class FoundRelatedRequestDto {
   @ApiProperty({
-    example: 1,
+    example: '75116a69-e256-4b0b-a982-3d071a78bd2b',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
-    example: 'sec_check',
+    example: Object.values(RequestsType)[2],
   })
-  type: string;
+  @IsEnum(RequestsType, {
+    message:
+      "Request's type must be one of these values: " +
+      Object.values(RequestsType).join(', '),
+  })
+  @IsString()
+  type: RequestsType;
 
   @ApiProperty({
     example: 'SEC-6598',
@@ -226,6 +277,11 @@ export class FoundNewcomerDto {
   firstDay: Date;
 
   @ApiProperty({
+    example: 'e05f51fb-874d-4bf4-adaf-2ab4a475b744',
+  })
+  externalId: string;
+
+  @ApiProperty({
     example: '2023-12-01T21:59:41.553Z',
   })
   createdAt: Date;
@@ -262,4 +318,84 @@ export class FoundNewcomerDto {
   })
   @Type(() => FoundRelatedRequestDto)
   RelatedRequests: FoundRelatedRequestDto[];
+
+  @ApiProperty({
+    type: () => FoundCorporateInfoDto,
+    isArray: false,
+  })
+  @Type(() => FoundCorporateInfoDto)
+  CorporateInfo: FoundCorporateInfoDto;
+}
+
+export class FoundAllNewcomersDto {
+  @ApiProperty({
+    example: 6,
+  })
+  id: number;
+
+  @ApiProperty({
+    example: 'Иван',
+  })
+  name: string;
+
+  @ApiProperty({
+    example: 'Владимирович',
+  })
+  middleName: string;
+
+  @ApiProperty({
+    example: 'Кринков',
+  })
+  surname: string;
+
+  @ApiProperty({
+    example: 'vl.krinkov@textme.ru',
+  })
+  email: string;
+
+  @ApiProperty({
+    example: '+79638527474',
+  })
+  mobile: string;
+
+  @ApiProperty({
+    example: 'Бухгалтер',
+  })
+  jobTitle: string;
+
+  @ApiProperty({
+    example: '2023-12-01T21:59:41.553Z',
+  })
+  firstDay: Date;
+
+  @ApiProperty({
+    example: 'e05f51fb-874d-4bf4-adaf-2ab4a475b744',
+  })
+  externalId: string;
+
+  @ApiProperty({
+    example: '2023-12-01T21:59:41.553Z',
+  })
+  createdAt: Date;
+
+  @ApiProperty({
+    example: '2023-12-01T21:59:41.553Z',
+  })
+  updatedAt: Date;
+
+  @ApiProperty({
+    type: () => FoundRelatedEmployeeDto,
+    isArray: true,
+  })
+  @Type(() => FoundRelatedEmployeeDto)
+  @Optional()
+  RelatedEmployees: FoundRelatedEmployeeDto[];
+
+  @ApiProperty({
+    type: () => FoundCorporateInfoDto,
+    isArray: false,
+  })
+  @Optional()
+  @Type(() => FoundCorporateInfoDto)
+  CorporateInfo: FoundCorporateInfoDto;
 }

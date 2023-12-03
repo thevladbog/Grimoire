@@ -101,6 +101,7 @@ export class NewcomersService {
       include: {
         CorporateInfo: needCorporateInfo,
         RelatedEmployees: needRelatedEmployees,
+        RelatedRequests: true,
       },
     });
   }

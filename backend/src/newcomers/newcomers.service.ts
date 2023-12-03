@@ -41,8 +41,6 @@ export class NewcomersService {
       throw new BadRequestException(e);
     }
 
-    console.log(dto);
-
     await this.prismaService.relatedEmployees.createMany({
       data: [
         {

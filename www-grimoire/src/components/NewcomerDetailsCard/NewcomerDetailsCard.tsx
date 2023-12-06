@@ -5,11 +5,12 @@ import { dateTimeParse } from "@gravity-ui/date-utils";
 import { Card, Button, Icon, Tabs, Label, Table, TableColumnConfig, Link, Skeleton } from '@gravity-ui/uikit';
 import { formatPhoneNumberIntl } from 'react-phone-number-input'
 
-import { ChevronsDown, Book, At, Smartphone, Calendar, PersonWorker, MagicWand } from '@gravity-ui/icons';
+import { ChevronsDown, Book, At, Smartphone, Calendar, PersonWorker, MagicWand, LogoYandexTracker } from '@gravity-ui/icons';
+
 import { IAccess, IDetailedData, IEquipment} from "src/components/NewcomerDetailsCard/types.ts";
+import { IRelatedEmployee, IRelatedRequest } from 'src/types/types.ts';
 
 import styles from './NewcomerDetailsCard.module.scss';
-import { IRelatedEmployee } from 'src/types/types.ts';
 
 
 enum Statuses {
@@ -80,6 +81,7 @@ export const NewcomerDetailsCard = () => {
   const [ detailedData, setDetailedData ] = useState<IDetailedData | undefined>(undefined);
   const [ mainRequests, setMainRequests ] = useState<MainRequestsTable[]>([]);
   const [ pageLoading, setPageLoading ] = useState<boolean>(false);
+  
   const { id } = useParams();
   
   const additionalRequestsTable: TableColumnConfig<IDataOfRequests>[] = [
@@ -167,6 +169,10 @@ export const NewcomerDetailsCard = () => {
     recruiter = (detailedData.RelatedEmployees).find((item: IRelatedEmployee) => item.type === 'recruiter');
   }
   
+  const mainIssue: IRelatedRequest | undefined = detailedData?.RelatedRequests?.find((issue: IRelatedRequest): boolean => {
+    return issue.type === 'main'
+  })
+  
   return (
     <>
       { !pageLoading && <>
@@ -175,6 +181,9 @@ export const NewcomerDetailsCard = () => {
             <h1>{ detailedData?.surname } { detailedData?.name } { detailedData?.middleName }'s details</h1>
             <div className={ styles.wrapper }>
               <div className={ styles.label }>
+                {mainIssue && <Label theme='unknown' value={mainIssue.requestId} onClick={() => window.open(`https://tracker.yandex.ru/${mainIssue.requestId}`, "_blank", "noreferrer")}
+                                     icon={ <Icon data={ LogoYandexTracker } size={ 16 } /> }>
+                  Main issue</Label> }
                 <Label theme='info' type='copy' copyText={ `NewcomerID=${ id }` }
                        icon={ <Icon data={ Book } size={ 16 } /> }>Page
                   #{ id }</Label>

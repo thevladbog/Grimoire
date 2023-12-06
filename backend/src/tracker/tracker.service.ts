@@ -2,22 +2,11 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { JwtHeader } from 'jsonwebtoken'
-
-import * as TRACKER_SECRETS from './authorized_key.json'
 import { HttpService } from '@nestjs/axios'
 import { lastValueFrom, map } from 'rxjs'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ICreatedIssue, IFoundIssue, IPayload } from 'src/tracker/types'
 import { CreateIssueDto } from 'src/tracker/dto'
-
-type TrackerSecrets = {
-  id: string
-  service_account_id: string
-  created_at: string
-  key_algorithm: string
-  public_key: string
-  private_key: string
-}
 
 type Response = {
   iamToken: string
@@ -76,8 +65,6 @@ export class TrackerService {
       description: data.description,
     }
 
-    console.log(payload)
-
     try {
       return await lastValueFrom(
         this.httpService.post(url, payload, requestConfig).pipe(
@@ -92,10 +79,11 @@ export class TrackerService {
   }
 
   async getIAMToken(): Promise<string> {
-    const secrets: TrackerSecrets = TRACKER_SECRETS
-    const key: string = secrets.private_key
-    const keyId: string = secrets.id
-    const serviceAccountId: string = secrets.service_account_id
+    const key: string = this.configService.get('TRACKER_PRIVATE_KEY')
+    const keyId: string = this.configService.get('TRACKER_ID')
+    const serviceAccountId: string = this.configService.get(
+      'TRACKER_SERVICE_ACCOUNT_ID',
+    )
     const now: number = Math.floor(new Date().getTime() / 1000)
     const header: JwtHeader = { kid: keyId, alg: 'PS256' }
 
@@ -110,7 +98,6 @@ export class TrackerService {
       secret: key,
       header,
     })
-    console.log(jwtToken)
 
     const IAMUrl: string = 'https://iam.api.cloud.yandex.net/iam/v1/tokens'
     const body: { jwt: string } = { jwt: jwtToken }

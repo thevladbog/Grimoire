@@ -9,6 +9,7 @@ on:
   pull_request:
     paths:
       - 'www-grimoire/**'
+      - 'backend/**'
     types:
       - opened
       - reopened

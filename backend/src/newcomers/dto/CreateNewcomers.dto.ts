@@ -1,6 +1,6 @@
-import { IsArray, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { IsArray, IsEmail, IsNotEmpty, IsOptional } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
+import { Type } from 'class-transformer'
 
 export class AccessesForNewcomersDto {
   @ApiProperty({
@@ -9,25 +9,25 @@ export class AccessesForNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly id: string;
+  readonly id: string
 
   @ApiProperty({
     example: 'Jira Atlassian',
     description: 'Name of system',
   })
-  readonly name: string;
+  readonly name: string
 
   @ApiProperty({
     example: 'License',
     description: 'Type of rights',
   })
-  readonly type: string;
+  readonly type: string
 
   @ApiProperty({
     example: 'Для ведения задач',
     description: 'Business justifications',
   })
-  readonly comment: string;
+  readonly comment: string
 }
 
 export class EquipmentForNewcomersDto {
@@ -37,25 +37,25 @@ export class EquipmentForNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly id: string;
+  readonly id: string
 
   @ApiProperty({
     example: 'Standard Laptop (Windows)',
     description: 'Name of system',
   })
-  readonly name: string;
+  readonly name: string
 
   @ApiProperty({
     example: 1,
     description: 'Number of equipments',
   })
-  readonly count: number;
+  readonly count: number
 
   @ApiProperty({
     example: 'Для работы в офисе',
     description: 'Business justifications',
   })
-  readonly comment: string;
+  readonly comment: string
 }
 
 export class CreateNewcomersDto {
@@ -65,11 +65,11 @@ export class CreateNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly name: string;
+  readonly name: string
 
   @ApiProperty({ example: 'Борисов', description: 'Russian/English surname' })
   @IsOptional()
-  readonly surname: string;
+  readonly surname: string
 
   @ApiProperty({
     example: 'Сергеевич',
@@ -77,7 +77,7 @@ export class CreateNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly middleName: string;
+  readonly middleName: string
 
   @ApiProperty({
     example: 'Ivan.Borisov@text.me',
@@ -86,7 +86,7 @@ export class CreateNewcomersDto {
   })
   @IsNotEmpty()
   @IsEmail()
-  readonly email: string;
+  readonly email: string
 
   @ApiProperty({
     example: '+79635236988',
@@ -94,7 +94,7 @@ export class CreateNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly mobile: string;
+  readonly mobile: string
 
   @ApiProperty({
     example: 'Разработчик',
@@ -102,7 +102,7 @@ export class CreateNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly jobTitle: string;
+  readonly jobTitle: string
 
   @ApiProperty({
     example: 'YYYY-MM-DDTHH:mm:ssZ',
@@ -110,21 +110,21 @@ export class CreateNewcomersDto {
     required: true,
   })
   @IsNotEmpty()
-  readonly startDate: Date;
+  readonly startDate: Date
 
   @ApiProperty({
     example: 'Свердловский Иван Владимирович',
     description: 'Linear manager',
   })
   @IsOptional()
-  readonly manager: string;
+  readonly manager: string
 
   @ApiProperty({
     example: 'Великая Анна Игоревна',
     description: 'Recruiter',
   })
   @IsOptional()
-  readonly recruiter: string;
+  readonly recruiter: string
 
   @ApiProperty({
     type: () => EquipmentForNewcomersDto,
@@ -132,7 +132,7 @@ export class CreateNewcomersDto {
   })
   @IsArray()
   @IsOptional()
-  readonly equipment: EquipmentForNewcomersDto[];
+  readonly equipment: EquipmentForNewcomersDto[]
 
   @ApiProperty({
     type: () => AccessesForNewcomersDto,
@@ -141,5 +141,5 @@ export class CreateNewcomersDto {
   @Type(() => AccessesForNewcomersDto)
   @IsArray()
   @IsOptional()
-  readonly accesses: AccessesForNewcomersDto[];
+  readonly accesses: AccessesForNewcomersDto[]
 }

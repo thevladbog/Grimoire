@@ -102,7 +102,7 @@
       gap: 25px;
 
       .tablesBlock:nth-child(1) {
-        min-width: 50%;
+        width: 45%;
       }
 
       .tablesBlock:nth-child(2) {
@@ -139,6 +139,14 @@
         }
       }
     }
+  }
+
+  .text_with_dots {
+    display: block;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
 
   @media(max-width: 1400px) {

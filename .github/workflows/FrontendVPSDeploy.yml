@@ -41,6 +41,10 @@ jobs:
       working-directory: www-grimoire
       run: npm run build
 
+    - name: Delete dist folder
+      working-directory: www-grimoire
+      run: rm -r /home/bot_cerberus/data/www/grimoire.v-b.tech
+
     - name: Move dist folder
       working-directory: www-grimoire
       run: mv /home/bot_cerberus/data/www/actions-runner/backend/Grimoire/Grimoire/www-grimoire/dist /home/bot_cerberus/data/www/grimoire.v-b.tech

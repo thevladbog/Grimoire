@@ -37,6 +37,6 @@
 Если у вас есть дополнительные идеи - создавай их в [Issue](https://github.com/thevladbog/Grimoire/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=%5BIDEA%5D) 
 
 
-## Пример дизайна (будет обновляться...)
+## Пример дизайна (будет обновляться)
 
 ![](https://github.com/thevladbog/Grimoire/blob/main/www-grimoire/src/assets/img/Grimoire_Example.png?raw=true)

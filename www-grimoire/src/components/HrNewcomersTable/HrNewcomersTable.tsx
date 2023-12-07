@@ -7,6 +7,8 @@ import {
   PaginationProps,
   TextInput,
   Skeleton,
+  Label,
+  Icon,
 } from '@gravity-ui/uikit';
 import React, { useEffect, useState } from 'react';
 import { dateTimeParse } from '@gravity-ui/date-utils';
@@ -20,6 +22,7 @@ import {
 } from 'src/types/types.ts';
 import { useNavigate } from 'react-router-dom';
 import { findEmployeeByTitle } from 'src/utils/findEmployeeByTitle.ts';
+import { LogoYandexTracker } from '@gravity-ui/icons';
 
 export interface IDataOfHrNewcomers {
   id: string;
@@ -121,7 +124,7 @@ export const HrNewcomersTable = () => {
             recruiter: findEmployeeByTitle('recruiter', newcomer),
             jobTitle: newcomer.jobTitle,
             startDate: newcomer.firstDay,
-            request: request?.requestId || 'Not found',
+            request: request?.requestId || '-',
           };
           newData.push(oneNewcomer);
         });
@@ -178,12 +181,32 @@ export const HrNewcomersTable = () => {
       id: 'startDate',
       name: 'Start Date',
       width: '15%',
-      template: (item) => dateTimeParse(item.startDate)?.format('DD.MM.YYYY'),
+      template: (item: IDataOfHrNewcomers) =>
+        dateTimeParse(item.startDate)?.format('DD.MM.YYYY'),
     },
     {
       id: 'request',
       name: 'Request #',
       width: '15%',
+      align: 'center',
+      template: (item: IDataOfHrNewcomers) =>
+        item.request !== '-' ? (
+          <Label
+            icon={<Icon data={LogoYandexTracker} size={16} />}
+            theme="unknown"
+            onClick={() =>
+              window.open(
+                `https://tracker.yandex.ru/${item.request}`,
+                '_blank',
+                'noreferrer',
+              )
+            }
+          >
+            {item.request}
+          </Label>
+        ) : (
+          `${item.request}`
+        ),
     },
   ];
 

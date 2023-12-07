@@ -60,26 +60,12 @@ const InitialButtonStatuses: IButtonStatuses = {
   doneDisabled: true
 }
 
-const MockRequests: IDataOfRequests[] = [
-  {
-    id: 'EQUIPMENT-123',
-    title: 'Подготовка оборудования',
-    status: 'В работе',
-    lastModified: new Date()
-  },
-  {
-    id: 'ACCESSES-25',
-    title: 'Доступ в Jira Atlassian',
-    status: 'Готово',
-    lastModified: new Date()
-  }
-]
-
 export const NewcomerDetailsCard = () => {
   const [ buttonStatuses, setButtonStatuses ] = useState<IButtonStatuses>(InitialButtonStatuses);
   const [ activeTab, setActiveTab ] = useState<TabsId>(TabsId.first);
   const [ detailedData, setDetailedData ] = useState<IDetailedData | undefined>(undefined);
   const [ mainRequests, setMainRequests ] = useState<MainRequestsTable[]>([]);
+  const [ relatedRequests, setRelatedRequests ] = useState<IDataOfRequests[]>([]);
   const [ pageLoading, setPageLoading ] = useState<boolean>(false);
   
   const { id } = useParams();
@@ -88,21 +74,26 @@ export const NewcomerDetailsCard = () => {
     {
       id: 'id',
       name: 'Запрос #',
+      width: '30%',
+      template: (item: IDataOfRequests) => <Label  icon={ <Icon data={ LogoYandexTracker } size={ 16 } /> } theme='unknown' onClick={() => window.open(`https://tracker.yandex.ru/${item.id}`, "_blank", "noreferrer")}>{ item.id }</Label>,
     },
     {
       id: 'title',
       name: 'Заголовок',
+      width: '50%',
+      template: (item: IDataOfRequests) => <div className={styles.text_with_dots}>{ item.title }</div>,
     },
     {
       id: 'status',
       name: 'Статус',
-      template: (item) => <Label>{ item.status }</Label>,
+      template: (item: IDataOfRequests) => <Label>{ item.status }</Label>,
     },
     {
       id: 'lastModified',
       name: 'Последнее изм.',
       align: 'right',
-      template: (item) => dateTimeParse(item.lastModified)?.format('HH:mm DD.MM.YYYY'),
+      width: '30%',
+      template: (item: IDataOfRequests) => dateTimeParse(item.lastModified)?.format('DD.MM.YYYY'),
     },
   ];
   
@@ -111,6 +102,7 @@ export const NewcomerDetailsCard = () => {
       id: 'requestId',
       name: 'Запрос #',
       width: '15%',
+      template: (item: MainRequestsTable) => item.requestId && <Label icon={ <Icon data={ LogoYandexTracker } size={ 16 } /> } theme='unknown' onClick={() => window.open(`https://tracker.yandex.ru/${item.requestId}`, "_blank", "noreferrer")}>{ item.requestId }</Label>,
     },
     {
       id: 'title',
@@ -153,6 +145,18 @@ export const NewcomerDetailsCard = () => {
                newMainRequestsData.push(...equipmentsRequests);
              }
              setMainRequests((newMainRequestsData));
+             
+             const foundRelatedRequests = res.data.RelatedRequests
+           const relatedRequestsArray: IDataOfRequests [] = []
+           foundRelatedRequests?.forEach((issue: IRelatedRequest) => {
+             relatedRequestsArray.push({
+               id: issue.requestId,
+               title: issue.title,
+               status: issue.requestStatus,
+               lastModified: new Date(issue.lastModified)
+             })
+           })
+           setRelatedRequests(relatedRequestsArray)
            },
          ).finally(() => setPageLoading(false));
     
@@ -178,11 +182,12 @@ export const NewcomerDetailsCard = () => {
       { !pageLoading && <>
         { detailedData &&
           <>
-            <h1>{ detailedData?.surname } { detailedData?.name } { detailedData?.middleName }'s details</h1>
+            <h1>{ detailedData?.surname } { detailedData?.name } { detailedData?.middleName }</h1>
             <div className={ styles.wrapper }>
               <div className={ styles.label }>
-                {mainIssue && <Label theme='unknown' value={mainIssue.requestId} onClick={() => window.open(`https://tracker.yandex.ru/${mainIssue.requestId}`, "_blank", "noreferrer")}
-                                     icon={ <Icon data={ LogoYandexTracker } size={ 16 } /> }>
+                { mainIssue && <Label theme='unknown' value={ mainIssue.requestId }
+                                      onClick={ () => window.open(`https://tracker.yandex.ru/${ mainIssue.requestId }`, '_blank', 'noreferrer') }
+                                      icon={ <Icon data={ LogoYandexTracker } size={ 16 } /> }>
                   Main issue</Label> }
                 <Label theme='info' type='copy' copyText={ `NewcomerID=${ id }` }
                        icon={ <Icon data={ Book } size={ 16 } /> }>Page
@@ -334,7 +339,8 @@ export const NewcomerDetailsCard = () => {
                         <h3>Дополнительные запросы</h3>
                         <Table
                           columns={ additionalRequestsTable }
-                          data={ MockRequests }
+                          data={ relatedRequests }
+                          wordWrap={ true }
                         />
                       </div>
                     </div>
@@ -352,11 +358,11 @@ export const NewcomerDetailsCard = () => {
           </>
         }
       </> }
-      {pageLoading && <div className={styles.skeleton}>
-        <Skeleton className={styles.skeletonName} />
-        <Skeleton className={styles.skeletonItem} />
-        <Skeleton className={styles.skeletonItem} />
-      </div>}
+      { pageLoading && <div className={ styles.skeleton }>
+        <Skeleton className={ styles.skeletonName } />
+        <Skeleton className={ styles.skeletonItem } />
+        <Skeleton className={ styles.skeletonItem } />
+      </div> }
     </>
   );
 };

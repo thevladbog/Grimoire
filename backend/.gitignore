@@ -40,3 +40,4 @@ lerna-debug.log*
 
 # Sentry Config File
 .sentryclirc
+/prisma/migrations/

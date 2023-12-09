@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
+    release: 'sins@' + process.env.npm_package_version,
   });
   const options: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .addBearerAuth()

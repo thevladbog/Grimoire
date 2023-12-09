@@ -38,7 +38,7 @@ jobs:
         echo POSTGRES_PRISMA_SHADOW_URL=$POSTGRES_PRISMA_SHADOW_URL >> .env
         echo JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET >> .env
         echo JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET >> .env
-        echo NODE_ENV="development" >> .env
+        echo NODE_ENV="production" >> .env
         echo TRACKER_ID=$TRACKER_ID >> .env
         echo NODE_ENV=$TRACKER_SERVICE_ACCOUNT_ID >> .env
         echo NODE_ENV=$TRACKER_PRIVATE_KEY >> .env

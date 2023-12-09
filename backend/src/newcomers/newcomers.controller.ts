@@ -5,7 +5,7 @@ import {
   Param,
   ParseBoolPipe,
   Post,
-  Query,
+  Query, UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -21,10 +21,13 @@ import {
   FoundAllNewcomersDto,
   FoundNewcomerDto,
 } from 'src/newcomers/dto/FoundNewcomer.dto';
+import { SentryInterceptor } from 'src/filters/sentry.interceptor';
 
 @ApiTags('Newcomers')
+@UseInterceptors(SentryInterceptor)
 @Controller('newcomers')
 export class NewcomersController {
+  // eslint-disable-next-line prettier/prettier
   constructor(private readonly newcomersService: NewcomersService) {}
 
   @Post()

@@ -5,7 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  UseGuards,
+  UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthDto, FoundUserDto, LoginDto, TokensDto } from 'src/auth/dto';
@@ -18,10 +18,13 @@ import {
 import { AtGuard, RtGuard } from 'src/common/guards';
 import { GetCurrentUser } from 'src/common/decorators';
 import { User } from '@prisma/client';
+import { SentryInterceptor } from 'src/filters/sentry.interceptor';
 
+@UseInterceptors(SentryInterceptor)
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
+  // eslint-disable-next-line prettier/prettier
   constructor(private authService: AuthService) {}
 
   @Post('/local/signup')

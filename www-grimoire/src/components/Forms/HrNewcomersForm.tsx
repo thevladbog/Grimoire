@@ -225,7 +225,7 @@ export const HrNewcomersForm = () => {
       .then((res: AxiosResponse<number>) => {
         console.log(res);
         add({
-          title: `Newcomer has been created with ID #${res.data}}`,
+          title: `Newcomer has been created with ID #${res.data}`,
           name: 'success',
           autoHiding: 5000,
           isClosable: true,
@@ -257,11 +257,12 @@ export const HrNewcomersForm = () => {
             pin="round-brick"
             label="Name:"
             id="name"
+            value={formData.name || ''}
             hasClear={true}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                name: value,
+                name: value.trim(),
               }))
             }
           />
@@ -270,11 +271,12 @@ export const HrNewcomersForm = () => {
             pin="brick-brick"
             label="Middle name:"
             id="middleName"
+            value={formData.middleName || ''}
             hasClear={true}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                middleName: value,
+                middleName: value.trim(),
               }))
             }
           />
@@ -283,11 +285,12 @@ export const HrNewcomersForm = () => {
             pin="brick-round"
             label="Surname:"
             id="surname"
+            value={formData.surname || ''}
             hasClear={true}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                surname: value,
+                surname: value.trim(),
               }))
             }
           />
@@ -298,11 +301,12 @@ export const HrNewcomersForm = () => {
             label="E-mail:"
             id="email"
             hasClear={true}
+            value={formData.email || ''}
             leftContent={<Icon data={At} />}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                email: value,
+                email: value.trim(),
               }))
             }
           />
@@ -311,11 +315,12 @@ export const HrNewcomersForm = () => {
             label="Mobile:"
             id="mobile"
             hasClear={true}
+            value={formData.mobile || ''}
             leftContent={<Icon data={Smartphone} />}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                mobile: value,
+                mobile: value.trim(),
               }))
             }
           />
@@ -324,11 +329,12 @@ export const HrNewcomersForm = () => {
             label="Job Title:"
             id="jobTitle"
             hasClear={true}
+            value={formData.jobTitle || ''}
             leftContent={<Icon data={PersonWorker} />}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                jobTitle: value,
+                jobTitle: value.trim(),
               }))
             }
           />
@@ -361,11 +367,12 @@ export const HrNewcomersForm = () => {
             placeholder="Borisov Sergey Vladimirovich"
             label="Manager: "
             id="manager"
+            value={formData.manager || ''}
             hasClear={true}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                manager: value,
+                manager: value.trim(),
               }))
             }
           />
@@ -374,10 +381,11 @@ export const HrNewcomersForm = () => {
             label="Recruiter: "
             id="recruiter"
             hasClear={true}
+            value={formData.recruiter || ''}
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                recruiter: value,
+                recruiter: value.trim(),
               }))
             }
           />

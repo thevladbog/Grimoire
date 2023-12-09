@@ -1,10 +1,19 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import EnvironmentPlugin from 'vite-plugin-environment';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), EnvironmentPlugin('all')],
+  plugins: [
+    react(),
+    EnvironmentPlugin('all'),
+    sentryVitePlugin({
+      org: 'v-b',
+      project: 'grimoire',
+    }),
+  ],
+
   css: {
     preprocessorOptions: {
       scss: {
@@ -12,9 +21,14 @@ export default defineConfig({
       },
     },
   },
+
   resolve: {
     alias: {
       src: '/src',
     },
+  },
+
+  build: {
+    sourcemap: true,
   },
 });

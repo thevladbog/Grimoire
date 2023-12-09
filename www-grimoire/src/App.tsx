@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 
 import {
   CheckIn,
@@ -25,10 +26,12 @@ import ErrorPage from 'src/pages/ErrorPage.tsx';
 import { HrNewNewcomers } from 'src/pages/HrNewNewcomers.tsx';
 import { NewcomerDetails } from 'src/pages/NewcomerDetails.tsx';
 
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
 function App() {
   return (
     <>
-      <Routes>
+      <SentryRoutes>
         <Route element={<Wrapper />}>
           <Route path={MainPageConfig.link} element={<Home />} />
           <Route path={SdNewcomersPageConfig.link} element={<SdNewcomers />} />
@@ -46,7 +49,7 @@ function App() {
           />
           <Route path="*" element={<ErrorPage />} />
         </Route>
-      </Routes>
+      </SentryRoutes>
     </>
   );
 }

@@ -8,6 +8,7 @@ on:
 
 env:
   VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 jobs:
   deployment:
@@ -27,6 +28,7 @@ jobs:
       run: |
         touch .env
         echo VITE_BACKEND_URL=$VITE_BACKEND_URL >> .env
+        echo SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN >> .env
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4

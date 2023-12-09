@@ -262,7 +262,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                name: value.trim(),
+                name: value,
               }))
             }
           />
@@ -276,7 +276,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                middleName: value.trim(),
+                middleName: value,
               }))
             }
           />
@@ -290,7 +290,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                surname: value.trim(),
+                surname: value,
               }))
             }
           />
@@ -306,7 +306,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                email: value.trim(),
+                email: value,
               }))
             }
           />
@@ -320,7 +320,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                mobile: value.trim(),
+                mobile: value,
               }))
             }
           />
@@ -334,7 +334,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                jobTitle: value.trim(),
+                jobTitle: value,
               }))
             }
           />
@@ -372,7 +372,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                manager: value.trim(),
+                manager: value,
               }))
             }
           />
@@ -385,7 +385,7 @@ export const HrNewcomersForm = () => {
             onUpdate={(value: string) =>
               setFormData((prevState: IFormData) => ({
                 ...prevState,
-                recruiter: value.trim(),
+                recruiter: value,
               }))
             }
           />

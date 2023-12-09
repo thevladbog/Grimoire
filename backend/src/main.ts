@@ -1,12 +1,17 @@
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder, OpenAPIObject } from '@nestjs/swagger';
+import * as Sentry from '@sentry/node';
+import { SentryFilter } from './filters/sentry.filter';
 
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const options = new DocumentBuilder()
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+  });
+  const options: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .addBearerAuth()
     .setTitle('SINS')
     .setDescription('API server for Grimoire | HR System')
@@ -16,11 +21,14 @@ async function bootstrap() {
     .addTag('Backend')
     .build();
 
-  const document = SwaggerModule.createDocument(app, options);
+  const document: OpenAPIObject = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-docs', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new SentryFilter(httpAdapter));
 
   await app.listen(process.env.PORT || 4566);
 }

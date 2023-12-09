@@ -27,6 +27,7 @@ export class HealthController {
   async check(): Promise<HealthCheckResult> {
     return await this.health.check([
       () => this.http.pingCheck('basic check', 'http://localhost:4566'),
+      () => this.http.pingCheck('swagger', 'http://localhost:4566/api-docs'),
       () => this.db.pingCheck('newcomers'),
       () => this.memory.checkHeap('memory_heap', 300*1024*1024),
       () => this.memory.checkRSS('memory_rss', 300*1024*1024)

@@ -16,10 +16,9 @@ import { matchRoutes } from '@remix-run/router';
 
 Sentry.init({
   dsn: "https://a32e2d8024c3773e62833a528e8f47c8@o4506367105171456.ingest.sentry.io/4506367107006464",
+  environment: import.meta.env.VITE_NODE_ENV,
   integrations: [
     new Sentry.BrowserTracing({
-      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-      tracePropagationTargets: ["localhost", /^https:\/\/sins\.v-b\.tech/],
       routingInstrumentation: Sentry.reactRouterV6Instrumentation(
         React.useEffect,
         useLocation,

@@ -29,6 +29,7 @@ jobs:
         touch .env
         echo VITE_BACKEND_URL=$VITE_BACKEND_URL >> .env
         echo SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN >> .env
+        echo VITE_NODE_ENV="production" >> .env
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4

@@ -11,6 +11,7 @@ export default defineConfig({
     sentryVitePlugin({
       org: 'v-b',
       project: 'grimoire',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
     }),
   ],
 

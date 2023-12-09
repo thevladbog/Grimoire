@@ -1,16 +1,25 @@
 import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder, OpenAPIObject } from '@nestjs/swagger';
 import * as Sentry from '@sentry/node';
-import { SentryFilter } from './filters/sentry.filter';
-
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+
+import { SentryFilter } from './filters/sentry.filter';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const client = new PrismaClient();
+
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     release: 'sins@' + process.env.npm_package_version,
+    environment: process.env.NODE_ENV,
+    integrations: [
+      new Sentry.Integrations.Prisma({ client }),
+      ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
+    ],
   });
   const options: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .addBearerAuth()

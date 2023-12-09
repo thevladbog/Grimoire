@@ -19,6 +19,7 @@ import { ICreatedIssue } from 'src/tracker/types'
 @Injectable()
 export class NewcomersService {
   constructor(
+    // eslint-disable-next-line prettier/prettier
     private readonly prismaService: PrismaService,
     private readonly tracker: TrackerService,
   ) {}
@@ -97,7 +98,7 @@ export class NewcomersService {
 
     const summary: string = `Новый сотрудник - ${dto.surname} ${dto.name} ${dto.middleName}`
     const queue: string = 'HIRE'
-    const description: string = CreateNewcomersIssue(dto)
+    const description: string = CreateNewcomersIssue(dto, newcomer.id)
 
     const payload: CreateIssueDto = {
       summary,

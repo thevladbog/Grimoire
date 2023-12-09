@@ -2,10 +2,13 @@ import {
   AccessesForNewcomersDto,
   CreateNewcomersDto,
   EquipmentForNewcomersDto,
-} from 'src/newcomers/dto/CreateNewcomers.dto'
-import { dateTimeParse } from '@gravity-ui/date-utils'
+} from 'src/newcomers/dto/CreateNewcomers.dto';
+import { dateTimeParse } from '@gravity-ui/date-utils';
 
-export const CreateNewcomersIssue = (dto: CreateNewcomersDto): string => {
+export const CreateNewcomersIssue = (
+  dto: CreateNewcomersDto,
+  id: number,
+): string => {
   return `
 Начат новый процесс по выводу нового сотрудника в компанию.
 
@@ -95,6 +98,15 @@ ${dto.recruiter}
 ${dateTimeParse(dto.startDate).format('DD.MM.YYYY')}
 
 ||
+||
+
+Grimoire
+
+|
+
+[Открыть страницу](https://grimoire.v-b.tech/newcomer/${id})
+
+||
 |#
 
 Запрошенное оборудование:
@@ -133,7 +145,7 @@ ${item.comment}
 
 |
 
-${item.id}`
+${item.id}`;
 })}
 
 ||
@@ -175,7 +187,7 @@ ${item.comment}
 
 |
 
-${item.id}`
+${item.id}`;
 })}
 
 ||
@@ -184,5 +196,5 @@ ${item.id}`
 ***
 
 ##### {red}(Внимание! Данная заявка будет считаться родительской для остальных. Не закрывай её, пока все связанные заявки не будут решены!)
-`
-}
+`;
+};

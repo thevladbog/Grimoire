@@ -40,8 +40,8 @@ jobs:
         echo JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET >> .env
         echo NODE_ENV="production" >> .env
         echo TRACKER_ID=$TRACKER_ID >> .env
-        echo NODE_ENV=$TRACKER_SERVICE_ACCOUNT_ID >> .env
-        echo NODE_ENV=$TRACKER_PRIVATE_KEY >> .env
+        echo TRACKER_SERVICE_ACCOUNT_ID=$TRACKER_SERVICE_ACCOUNT_ID >> .env
+        echo TRACKER_PRIVATE_KEY=$TRACKER_PRIVATE_KEY >> .env
         echo SENTRY_DSN=$SENTRY_DSN >> .env
         echo SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN >> .env
 

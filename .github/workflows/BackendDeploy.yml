@@ -50,16 +50,18 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Stop pm2
+      run: cd /home/bot_cerberus/data/www/sins.v-b.tech/ && pm2 stop ecosystem.config.js
+
+    - name: Move project
+      run: rm -r /home/bot_cerberus/data/www/sins.v-b.tech/ && mv backend /home/bot_cerberus/data/www/sins.v-b.tech/
+
     - name: Install dependencies
-      working-directory: backend
-      run: npm install
+      run: cd /home/bot_cerberus/data/www/sins.v-b.tech/ && npm install
 
     - name: Build project
-      working-directory: backend
-      run: npm run build
+      run: cd /home/bot_cerberus/data/www/sins.v-b.tech/ && npm run build
 
-
-    - name: Restart pm2
-      working-directory: backend
-      run: npm run restart:server
+    - name: Start pm2
+      run: cd /home/bot_cerberus/data/www/sins.v-b.tech/ && pm2 start ecosystem.config.js
 

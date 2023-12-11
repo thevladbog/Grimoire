@@ -111,18 +111,24 @@ enum RequestsType {
 }
 
 model User {
-  id           Int          @id @default(autoincrement())
-  email        String       @unique
-  name         String
-  surname      String
-  login        String       @unique
-  passwordHash String       @map("password_hash")
-  roles        USER_ROLES[]
-  avatarUrl    String?      @map("avatar_url")
-  hashedRt     String?      @map("hashed_refresh_token")
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id               Int          @id @default(autoincrement())
+  email            String       @unique
+  name             String
+  surname          String
+  login            String       @unique
+  passwordHash     String       @map("password_hash")
+  roles            USER_ROLES[]
+  desiredRoles     USER_ROLES[] @map("desired_roles")
+  verified         Boolean?     @default(false)
+  verificationCode String?      @unique @db.Text
+  avatarUrl        String?      @map("avatar_url")
+  accessIsue       String?      @map("access_issue")
+  hashedRt         String?      @map("hashed_refresh_token")
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
+  @@unique([email, verificationCode])
+  @@index([email, verificationCode])
   @@map("users")
 }
 

@@ -36,6 +36,7 @@ import LogoIcon from 'src/assets/img/Grimoire_icon.svg';
 
 import './MainLayout.scss';
 import { ActionBarSingleSection } from 'src/components/ActionBar/ActionBarWithBreadcrumbs.tsx';
+import { NavigateFunction } from 'react-router';
 
 enum Panel {
   ProjectSettings = 'projectSettings',
@@ -73,7 +74,7 @@ export const AsideHeaderShowcase: FC<AsideHeaderShowcaseProps> = ({
   };
 
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
     setCurrentItem(location.pathname);

@@ -25,10 +25,11 @@ import './App.scss';
 import ErrorPage from 'src/pages/ErrorPage.tsx';
 import { HrNewNewcomers } from 'src/pages/HrNewNewcomers.tsx';
 import { NewcomerDetails } from 'src/pages/NewcomerDetails.tsx';
+import { FC } from 'react';
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
-function App() {
+const App: FC = () => {
   return (
     <>
       <SentryRoutes>
@@ -52,6 +53,6 @@ function App() {
       </SentryRoutes>
     </>
   );
-}
+};
 
 export default App;

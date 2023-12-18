@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import {
   Button,
   Card,
@@ -29,6 +29,7 @@ import styles from './HrNewcomersForm.module.scss';
 import { AccessesOptions } from 'src/components/Forms/configs/accesses.ts';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { formatMobileNumber } from 'src/utils/formayMobileNumber.ts';
+import { NavigateFunction } from 'react-router';
 
 const FORMAT: string = 'YYYY-MM-DDTHH:mm:ssZ';
 
@@ -74,13 +75,13 @@ const InitialData: IFormData = {
   accesses: undefined,
 };
 
-export const HrNewcomersForm = () => {
+export const HrNewcomersForm: FC = () => {
   const [formData, setFormData] = useState<IFormData>(InitialData);
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [accessesList, setAccessesList] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOP', 8);
   const { add } = useToaster();
@@ -98,12 +99,12 @@ export const HrNewcomersForm = () => {
     }
 
     if (target === 'accesses') {
-      const accessesId = 'ACCESS' + nanoid();
+      const accessesId: string = 'ACCESS' + nanoid();
       const newItem: IAccess = { id: accessesId };
       const tempArray: IAccess[] | undefined = formData.accesses || [];
       tempArray.push(newItem);
 
-      setAccessesList((prev) => [...prev, accessesId]);
+      setAccessesList((prev: string[]) => [...prev, accessesId]);
 
       setFormData((prev: IFormData) => ({
         ...prev,
@@ -122,7 +123,7 @@ export const HrNewcomersForm = () => {
       const oldArray: IEquipment[] = formData.equipment || [];
 
       const changedConfig: IEquipment | undefined = oldArray.find(
-        (config) => config.id === id,
+        (config: IEquipment) => config.id === id,
       );
 
       if (!changedConfig) return;
@@ -139,7 +140,7 @@ export const HrNewcomersForm = () => {
       const oldArray: IAccess[] = formData.accesses || [];
 
       const changedConfig: IAccess | undefined = oldArray.find(
-        (config) => config.id === id,
+        (config: IAccess) => config.id === id,
       );
 
       if (!changedConfig) return;
@@ -153,18 +154,18 @@ export const HrNewcomersForm = () => {
     }
   };
 
-  const deleteItem = (id: string, list: 'equipment' | 'accesses') => {
+  const deleteItem = (id: string, list: 'equipment' | 'accesses'): void => {
     if (list === 'equipment') {
       const index: number = equipmentList.indexOf(id);
       if (index > -1) {
-        const tempArray = equipmentList;
+        const tempArray: string[] = equipmentList;
         tempArray.splice(index, 1);
         setEquipmentList(tempArray);
 
         const oldEquipmentArray: IEquipment[] = formData.equipment || [];
 
         const deletedConfig: IEquipment | undefined = oldEquipmentArray.find(
-          (config) => config.id === id,
+          (config: IEquipment) => config.id === id,
         );
         if (!deletedConfig) return;
 
@@ -180,14 +181,14 @@ export const HrNewcomersForm = () => {
     if (list === 'accesses') {
       const index: number = accessesList.indexOf(id);
       if (index > -1) {
-        const tempArray = accessesList;
+        const tempArray: string[] = accessesList;
         tempArray.splice(index, 1);
         setAccessesList(tempArray);
 
         const oldAccessesArray: IAccess[] = formData.accesses || [];
 
         const deletedConfig: IAccess | undefined = oldAccessesArray.find(
-          (config) => config.id === id,
+          (config: IAccess) => config.id === id,
         );
         if (!deletedConfig) return;
 
@@ -209,11 +210,11 @@ export const HrNewcomersForm = () => {
     return iso.slice(0, 19) + '.000Z';
   };
 
-  const clearForm = () => {
+  const clearForm = (): void => {
     window.location.reload();
   };
 
-  const submitForm = async () => {
+  const submitForm = async (): Promise<void> => {
     setLoading(true);
     const url: string =
       import.meta.env.VITE_BACKEND_URL || 'https://sins.v-b.tech';
@@ -222,8 +223,7 @@ export const HrNewcomersForm = () => {
         ...formData,
         mobile: formatMobileNumber(formData.mobile),
       })
-      .then((res: AxiosResponse<number>) => {
-        console.log(res);
+      .then((res: AxiosResponse<number>): void => {
         add({
           title: `Newcomer has been created with ID #${res.data}`,
           name: 'success',
@@ -233,8 +233,7 @@ export const HrNewcomersForm = () => {
         });
         setTimeout(() => navigate(`/newcomer/${res.data}`), 2000);
       })
-      .catch((error: AxiosError) => {
-        console.log(error);
+      .catch((error: AxiosError): void => {
         add({
           title: `Something went wrong. Error ${error?.message}`,
           name: 'error',
@@ -243,7 +242,7 @@ export const HrNewcomersForm = () => {
           type: 'error',
         });
       })
-      .finally(() => {
+      .finally((): void => {
         setLoading(false);
       });
   };

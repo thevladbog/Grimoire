@@ -1,12 +1,17 @@
 import { Breadcrumbs, ClipboardButton } from '@gravity-ui/uikit';
 import { ActionBar } from '@gravity-ui/navigation';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getFirstBreadcrumb } from 'src/utils/getFirstBreadcrumb.ts';
+import {
+  getFirstBreadcrumb,
+  IFirstBreadcrumb,
+} from 'src/utils/getFirstBreadcrumb.ts';
+import { FC } from 'react';
+import { NavigateFunction } from 'react-router';
 
-export function ActionBarSingleSection() {
+export const ActionBarSingleSection: FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const firstBreadcrumb = getFirstBreadcrumb(location);
+  const navigate: NavigateFunction = useNavigate();
+  const firstBreadcrumb: IFirstBreadcrumb = getFirstBreadcrumb(location);
 
   return (
     <ActionBar>
@@ -35,4 +40,4 @@ export function ActionBarSingleSection() {
       </ActionBar.Section>
     </ActionBar>
   );
-}
+};

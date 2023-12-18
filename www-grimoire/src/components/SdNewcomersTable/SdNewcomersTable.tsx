@@ -6,8 +6,10 @@ import {
   Pagination,
   PaginationProps,
   TextInput,
+  TableProps,
+  WithTableActionsProps,
 } from '@gravity-ui/uikit';
-import React, { useEffect, useState } from 'react';
+import React, { ComponentType, FC, useEffect, useState } from 'react';
 
 import { mockData } from './__tests__/mock.ts';
 
@@ -28,7 +30,7 @@ interface IPaginationConfig {
   pageSize: number;
 }
 
-export const SdNewcomersTable = () => {
+export const SdNewcomersTable: FC = () => {
   const [rawData, setRawData] = useState<IDataOfNewcomers[]>([]);
   const [filteredData, setFilteredData] = useState<IDataOfNewcomers[]>([]);
   const [paginatedData, setPaginatedData] = useState<IDataOfNewcomers[]>([]);
@@ -50,7 +52,7 @@ export const SdNewcomersTable = () => {
     setRerenderFilteredData(true);
   };
 
-  const changeDataWhenSearch = (text: string) => {
+  const changeDataWhenSearch = (text: string): void => {
     const filteredRawData: IDataOfNewcomers[] = [];
     rawData.forEach((item: IDataOfNewcomers) => {
       for (const key in item) {
@@ -107,7 +109,11 @@ export const SdNewcomersTable = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterParams, paginationConfig]);
 
-  const MyTable = withTableActions<IDataOfNewcomers>(Table);
+  type TTableProps = TableProps<IDataOfNewcomers> &
+    WithTableActionsProps<IDataOfNewcomers>;
+
+  const MyTable: ComponentType<TTableProps> =
+    withTableActions<IDataOfNewcomers>(Table);
   const columns: TableColumnConfig<IDataOfNewcomers>[] = [
     {
       id: 'nameRu',
@@ -166,7 +172,7 @@ export const SdNewcomersTable = () => {
         <TextInput
           placeholder="Search ..."
           size="m"
-          onUpdate={(value) => {
+          onUpdate={(value: string) => {
             setFilterParams(value);
           }}
           className={styles.search__input}

@@ -9,8 +9,10 @@ import {
   Skeleton,
   Label,
   Icon,
+  WithTableActionsProps,
+  TableProps,
 } from '@gravity-ui/uikit';
-import React, { useEffect, useState } from 'react';
+import React, { ComponentType, FC, useEffect, useState } from 'react';
 import { dateTimeParse } from '@gravity-ui/date-utils';
 
 import styles from './HrNewcomersTable.module.scss';
@@ -23,6 +25,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { findEmployeeByTitle } from 'src/utils/findEmployeeByTitle.ts';
 import { LogoYandexTracker } from '@gravity-ui/icons';
+import { NavigateFunction } from 'react-router';
 
 export interface IDataOfHrNewcomers {
   id: string;
@@ -39,7 +42,7 @@ interface IPaginationConfig {
   pageSize: number;
 }
 
-export const HrNewcomersTable = () => {
+export const HrNewcomersTable: FC = () => {
   const [rawData, setRawData] = useState<IDataOfHrNewcomers[]>([]);
   const [filteredData, setFilteredData] = useState<IDataOfHrNewcomers[]>([]);
   const [paginatedData, setPaginatedData] = useState<IDataOfHrNewcomers[]>([]);
@@ -53,9 +56,12 @@ export const HrNewcomersTable = () => {
   const [totalItems, setTotalItems] = useState<number>(0);
   const [pageLoading, setPageLoading] = useState<boolean>(true);
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
-  const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
+  const handleUpdate: PaginationProps['onUpdate'] = (
+    page: number,
+    pageSize: number,
+  ): void => {
     setPaginationConfig((prevState: IPaginationConfig) => ({
       ...prevState,
       page,
@@ -64,7 +70,7 @@ export const HrNewcomersTable = () => {
     setRerenderFilteredData(true);
   };
 
-  const changeDataWhenSearch = (text: string) => {
+  const changeDataWhenSearch = (text: string): void => {
     const filteredRawData: IDataOfHrNewcomers[] = [];
     rawData.forEach((item: IDataOfHrNewcomers) => {
       for (const key in item) {
@@ -108,10 +114,10 @@ export const HrNewcomersTable = () => {
       '/newcomers/all?corporateInfo=false&relatedEmployees=true';
     axios
       .get<IListOfNewcomers[]>(url)
-      .then((res: AxiosResponse<IListOfNewcomers[]>) => {
+      .then((res: AxiosResponse<IListOfNewcomers[]>): void => {
         console.log(res);
         const newData: IDataOfHrNewcomers[] = [];
-        res.data.forEach((newcomer: IListOfNewcomers) => {
+        res.data.forEach((newcomer: IListOfNewcomers): void => {
           const request: IRelatedRequest | undefined =
             newcomer.RelatedRequests?.find(
               (item: IRelatedRequest) => item.type === RequestsType.main,
@@ -155,7 +161,11 @@ export const HrNewcomersTable = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterParams, paginationConfig]);
 
-  const MyTable = withTableActions<IDataOfHrNewcomers>(Table);
+  type TTableProps = TableProps<IDataOfHrNewcomers> &
+    WithTableActionsProps<IDataOfHrNewcomers>;
+
+  const MyTable: ComponentType<TTableProps> =
+    withTableActions<IDataOfHrNewcomers>(Table);
   const columns: TableColumnConfig<IDataOfHrNewcomers>[] = [
     {
       id: 'nameRu',
@@ -237,7 +247,7 @@ export const HrNewcomersTable = () => {
             <TextInput
               placeholder="Search ..."
               size="m"
-              onUpdate={(value) => {
+              onUpdate={(value: string) => {
                 setFilterParams(value);
               }}
               className={styles.search__input}

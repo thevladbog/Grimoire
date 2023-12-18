@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from "axios";
 import { dateTimeParse } from "@gravity-ui/date-utils";
@@ -60,7 +60,7 @@ const InitialButtonStatuses: IButtonStatuses = {
   doneDisabled: true
 }
 
-export const NewcomerDetailsCard = () => {
+export const NewcomerDetailsCard: FC = () => {
   const [ buttonStatuses, setButtonStatuses ] = useState<IButtonStatuses>(InitialButtonStatuses);
   const [ activeTab, setActiveTab ] = useState<TabsId>(TabsId.first);
   const [ detailedData, setDetailedData ] = useState<IDetailedData | undefined>(undefined);
@@ -108,19 +108,19 @@ export const NewcomerDetailsCard = () => {
       id: 'title',
       name: 'Заголовок',
       width: '55%',
-      template: (item) => <p>[{ item.internalId }] { item.system || item.type }</p>,
+      template: (item: MainRequestsTable) => <p>[{ item.internalId }] { item.system || item.type }</p>,
     },
     {
       id: 'status',
       name: 'Статус',
-      template: (item) => <Label>{ item.requestStatus || 'Не создана' }</Label>,
+      template: (item: MainRequestsTable) => <Label>{ item.requestStatus || 'Не создана' }</Label>,
     },
     {
       id: 'lastModified',
       name: 'Последнее изм.',
       width: '23%',
       align: 'right',
-      template: (item) => dateTimeParse(item.updatedAt)?.format('DD.MM.YYYY'),
+      template: (item: MainRequestsTable) => dateTimeParse(item.updatedAt)?.format('DD.MM.YYYY'),
     },
   ];
   
@@ -131,7 +131,7 @@ export const NewcomerDetailsCard = () => {
       import.meta.env.VITE_BACKEND_URL || 'https://sins.v-b.tech';
     const endpointUrl: URL = new URL(`/newcomers/${ id }`, url);
     axios.get<IDetailedData>(endpointUrl.href)
-         .then((res: AxiosResponse<IDetailedData>) => {
+         .then((res: AxiosResponse<IDetailedData>): void => {
              setDetailedData(res.data);
              
              const accessesRequests: MainRequestsTable[] | undefined = res.data.Accesses;
@@ -146,7 +146,7 @@ export const NewcomerDetailsCard = () => {
              }
              setMainRequests((newMainRequestsData));
              
-             const foundRelatedRequests = res.data.RelatedRequests
+             const foundRelatedRequests: IRelatedRequest[] | undefined = res.data.RelatedRequests
            const relatedRequestsArray: IDataOfRequests [] = []
            foundRelatedRequests?.forEach((issue: IRelatedRequest) => {
              relatedRequestsArray.push({
